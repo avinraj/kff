@@ -1,0 +1,171 @@
+.AddSaleContainer {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  margin-top: 100px;
+  padding: 21px;
+  border-radius: 25px;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.amountInput {
+  height: 40px;
+  width: 111px;
+}
+.kgInput {
+  width: 100px;
+}
+.kgLabel2 {
+  margin-top: 6px;
+  margin-left: 15px;
+}
+.cleaningLabel {
+  margin-left: 15px;
+  padding: 7px;
+}
+@media only screen and (max-width: 600px) {
+  .kgLabel1 {
+    width: 80px;
+  }
+  .nameInput {
+    width: 239px;
+    margin-left: 10px;
+  }
+  .selectOptions {
+    margin-left: 0%;
+  }
+  .balanceLabel {
+    margin-left: 20%;
+  }
+  .amountLabel1 {
+    width: 140px;
+  }
+  .errorKg {
+    position: relative;
+    margin-top: -28px;
+    margin-left: 83px;
+    color: red;
+    font-size: 13px;
+  }
+  .errorAmount{
+    position: relative;
+    margin-top: -28px;
+    margin-left: 142px;
+    color: red;
+    font-size: 13px;
+  }
+}
+@media only screen and (min-width: 600px) and (max-width: 840px) {
+  .kgLabel1 {
+    width: 305px;
+    text-align: end;
+  }
+  .kgLabel2 {
+    width: 254px;
+  }
+  .nameFlex {
+    justify-content: center;
+  }
+  .nameLabel {
+    margin-left: 13px;
+  }
+  .nameInput {
+    width: 235px;
+  }
+  .dateFlex {
+    justify-content: center;
+  }
+  .dateLabel {
+    margin-left: 42px;
+  }
+  .selectOptions {
+    width: 450px;
+    margin-left: 170px;
+  }
+  .priceFlex {
+    justify-content: space-evenly;
+  }
+  .amountLabel1 {
+    margin-left: 170px;
+  }
+  .typePayLabel {
+    margin-left: 167px;
+  }
+  .payConfirmLabel {
+    margin-left: 142px;
+  }
+  .errorKg {
+    position: relative;
+    margin-top: -28px;
+    margin-left: 310px;
+    color: red;
+    font-size: 13px;
+  }
+  .errorAmount{
+    position: relative;
+    margin-top: -28px;
+    margin-left: 310px;
+    color: red;
+    font-size: 13px;
+  }
+}
+@media only screen and (min-width: 840px) {
+  .AddSaleContainer {
+    width: 548px;
+    margin-left: 30%;
+    margin-top: 40px;
+    padding: 10px;
+    position: absolute;
+  }
+  .kgLabel1 {
+    margin-left: 115px;
+  }
+  .nameLabel {
+    margin-left: 138px;
+  }
+  .nameInput {
+    width: 235px;
+  }
+  .dateLabel {
+    margin-left: 146px;
+  }
+  .selectOptions {
+    width: 450px;
+    margin-left: 57px;
+  }
+  .priceFlex {
+    justify-content: space-evenly;
+  }
+  .amountLabel1 {
+    margin-left: 58px;
+  }
+  .typePayLabel {
+    margin-left: 56px;
+  }
+  .payConfirmLabel {
+    margin-left: 32px;
+  }
+  .errorKg {
+    position: relative;
+    margin-top: -28px;
+    margin-left: 194px;
+    color: red;
+    font-size: 13px;
+  }
+  .errorAmount{
+    position: relative;
+    margin-top: -28px;
+    margin-left: 197px;
+    color: red;
+    font-size: 13px;
+  }
+}

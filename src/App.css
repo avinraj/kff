@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+.mainDiv{
+background-image: url("./images/fish-seamless-background_8365-65.jpg");
+height: 100vh;
+width: auto;
+}
+@media only screen and (min-width: 600px) and  (max-width: 835px) {
+  .mainDiv{
+    width: fit-content;
+    height: 138vh;
+  }
+}

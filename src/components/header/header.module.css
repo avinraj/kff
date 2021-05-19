@@ -1,0 +1,25 @@
+  .logo {
+    position: absolute;
+      border-radius: 50px;
+      top: 12px;
+      left: 11px;
+      width: 100px;
+      height: 100px;
+  }
+  .tagLine{
+    color: white;
+  margin-left: 130px;
+  font-style: italic;
+  font-weight: bold;
+  font-variant: small-caps;
+  }
+  @media only screen and (max-width: 600px) {
+    .tagLine{
+        margin-left: 130px;
+          }
+  }
+  @media only screen and (min-width: 600px) {
+    .tagLine{
+        margin-left: 120px;
+         }
+  }

@@ -1,0 +1,46 @@
+.cardContainer{
+   margin-top: 10px;
+    text-align: center;
+  }
+  .card:hover{
+  transform: scale(1.1);
+  }
+  .fade{
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .modal-backdrop.show {
+    display: none;
+}
+  @media only screen and (max-width: 600px) {
+   .cardContainer{
+     margin-top: 60px;
+   } 
+    .gridContainer{
+      display: grid;
+   grid-auto-flow: column;
+   overflow-x: auto;
+   margin-inline-start: 26px;
+   margin-inline-end: 26px;
+    }
+    .card{
+      background-color: whitesmoke;
+      margin-right: 26px;
+      display: grid;
+      border-radius: 5px;
+    }
+   }
+   @media only screen and (min-width: 600px) {
+    .gridContainer{
+        display: grid;
+        grid-template-columns:max-content max-content max-content;
+        justify-content: space-evenly;
+        grid-column-gap: 10px ;
+        grid-row-gap: 10px;
+      }
+      .card{
+        border-radius: 5px;
+        background-color: whitesmoke;
+        display: grid;
+      }
+   }
