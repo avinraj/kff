@@ -3,11 +3,13 @@ import DatePicker from "react-datepicker";
 import "./addSale.css";
 import fishData from "../../Data/fishData";
 import "react-datepicker/dist/react-datepicker.css";
-import {useParams} from 'react-router-dom'
+import { useParams } from "react-router-dom";
+// import API from "../../Utils/salesbaseUrl";
+import axios from "axios";
 const AddSale = () => {
- const {id, mmyy} = useParams();
- console.log(id);
- console.log(mmyy)
+  const { id, mmyy } = useParams();
+  console.log(id);
+  console.log(mmyy);
   const validateForm = (errors) => {
     let valid = true;
     Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
@@ -25,7 +27,7 @@ const AddSale = () => {
     payType: "cash",
     payComp: false,
     tankID: id,
-    mmyy: mmyy
+    mmyy: mmyy,
   });
   const [errors, setErrors] = useState({
     kgError: "",
@@ -93,25 +95,29 @@ const AddSale = () => {
   const setPayCompValue = (value) => {
     setSaleData({ ...saleData, payComp: value });
   };
-  const clearSaleData = () =>{
-    setSaleData({...saleData,   kg: "1",
-    cleaning: false,
-    name: "",
-    date: new Date(),
-    fishType: "",
-    price: "",
-    balance: "",
-    amountReciv: "",
-    payType: "cash",
-    payComp: false,})
-  }
+  const clearSaleData = () => {
+    setSaleData({
+      ...saleData,
+      kg: "1",
+      cleaning: false,
+      name: "",
+      date: new Date(),
+      fishType: "",
+      price: "",
+      balance: "",
+      amountReciv: "",
+      payType: "cash",
+      payComp: false,
+    });
+  };
   const handleChange = (e) => {
     console.log(e.target.value);
     if (e.target.id === "newSaleFormInput1") {
-      checkErrro("kgError", e.target.value)
+      checkErrro("kgError", e.target.value);
       if (saleData.fishType || saleData.amountReciv) {
         const obj = fishData.find((n) => n.fishType === saleData.fishType);
-        if(saleData.fishType){ const Kg = Number(e.target.value);
+        if (saleData.fishType) {
+          const Kg = Number(e.target.value);
           const KgPrice = Kg * obj.price;
           const KgCleaning = Kg * obj.cleaning;
           const price = KgPrice + KgCleaning;
@@ -119,9 +125,10 @@ const AddSale = () => {
             setKgValue(e.target.value, price, saleData.amountReciv - price);
           } else {
             setKgValue(e.target.value, KgPrice, saleData.amountReciv - KgPrice);
-          }}
-          else{ setKgValue(e.target.value, "", "");}
-       
+          }
+        } else {
+          setKgValue(e.target.value, "", "");
+        }
       } else {
         setKgValue(e.target.value, "", "");
       }
@@ -203,7 +210,7 @@ const AddSale = () => {
       }
     }
     if (e.target.id === "newSaleFormInput4") {
-      checkErrro("amountError", e.target.value)
+      checkErrro("amountError", e.target.value);
       setAmountBalanceValue(e.target.value, e.target.value - saleData.price);
     }
     if (e.target.name === "flexRadioDefault") {
@@ -215,10 +222,18 @@ const AddSale = () => {
   };
   const saleSubmit = () => {
     console.log(saleData);
-    if(validateForm(errors)){
-      console.log('Valid Form')
-    }else{
-      console.log('Invalid Form')
+    if (
+      validateForm(errors) &&
+      saleData.fishType !== "" &&
+      saleData.amountReciv !== ""
+    ) {
+      axios
+        .post("http://localhost:3030/sale/addSale", saleData)
+        .then((res) => {
+          console.log(res);
+        });
+    } else {
+      console.log("Invalid Form");
     }
   };
   return (
@@ -236,8 +251,8 @@ const AddSale = () => {
           id="newSaleFormInput1"
           value={saleData.kg}
           onChange={handleChange}
-         formNoValidate
-         ></input>
+          formNoValidate
+        ></input>
         <label htmlFor="newSaleFormInput1" className="form-label kgLabel2">
           kg
         </label>
@@ -399,7 +414,11 @@ const AddSale = () => {
         <button type="button" className="btn btn-primary" onClick={saleSubmit}>
           ADD
         </button>
-        <button type="button" className="btn btn-secondary" onClick={clearSaleData}>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={clearSaleData}
+        >
           CLEAR
         </button>
       </div>

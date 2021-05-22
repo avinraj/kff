@@ -1,28 +1,21 @@
-const app = require("./express-server");
-const http = require("http");
-const dbConfig = require("./config/database");
-const DBManager = require("./managers/db-manager");
-const PORT = process.env.port || 5000;
-DBManager.initDBConnection(dbConfig).then(() => {
-  startServer();
-})
-.catch((err) => {
-    console.log('Error :' , err)
-    process.exit(0)
-})
-function onListening(server) {
-  const addr = server.address();
-  const bind = typeof addr === "string" ? "pipe" + addr : "port " + addr.port;
-  console.log("Server Listening on : " + bind);
-}
-function startServer() {
-  const server = http.createServer(app);
-  server.listen(PORT);
-  server.on("error", (e) => {
-    console.log("Error: ", e);
-    process.exit(0);
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const app = express();
+const PORT = 3030;
+const saleRoute = require("./routes/salesRoute");
+const connectionOptions = {useUnifiedTopology: true,useNewUrlParser: true,useFindAndModify: false}
+app.use(express.json())
+app.use(cors())
+mongoose
+  .connect("mongodb://localhost/KFF",connectionOptions)
+  .then(() => {
+    console.log("DB connected succefully");
+  })
+  .catch((err) => {
+    console.log(err);
   });
-  server.on("listening", () => onListening(server));
-}
-
-
+app.use("/sale", saleRoute);
+app.listen(PORT, () => {
+  console.log("The servre is listening in " + PORT);
+});
