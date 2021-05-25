@@ -4,9 +4,10 @@ import "./addSale.css";
 import fishData from "../../Data/fishData";
 import "react-datepicker/dist/react-datepicker.css";
 import { useParams } from "react-router-dom";
-// import API from "../../Utils/salesbaseUrl";
-import axios from "axios";
+import API from "../../Utils/salesbaseUrl";
+import SuccesAlert from "../../Utils/alerts";
 const AddSale = () => {
+  let dropDownListObj;
   const { id, mmyy } = useParams();
   console.log(id);
   console.log(mmyy);
@@ -14,6 +15,13 @@ const AddSale = () => {
     let valid = true;
     Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
     return valid;
+  };
+  const [alertData, setalertData] = useState({
+    data: "",
+    color: "",
+  });
+  const setAlert = (msg, color) => {
+    setalertData({ ...alertData, data: msg, color: color });
   };
   const [saleData, setSaleData] = useState({
     kg: "1",
@@ -96,6 +104,7 @@ const AddSale = () => {
     setSaleData({ ...saleData, payComp: value });
   };
   const clearSaleData = () => {
+    dropDownListObj.value = null;
     setSaleData({
       ...saleData,
       kg: "1",
@@ -173,7 +182,7 @@ const AddSale = () => {
       }
     }
     if (e.target.id === "inputGroupSelect01") {
-      if (e.target.value === "Choose...") {
+      if (e.target.value === "Choose..." || null) {
         setNewAmountBalancePriceValue(false, "", "", "", "");
       } else {
         const Kg = Number(saleData.kg);
@@ -227,17 +236,35 @@ const AddSale = () => {
       saleData.fishType !== "" &&
       saleData.amountReciv !== ""
     ) {
-      axios
-        .post("http://localhost:3030/sale/addSale", saleData)
-        .then((res) => {
-          console.log(res);
-        });
+      API.post("addSale", saleData).then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          const alertMsg = { mesg: "Sales added successfully", color: "#0aab52" };
+          setAlert(alertMsg.mesg, alertMsg.color);
+        }
+        else{
+          const alertMsg = { mesg: "Sales adding failed. Try Again", color: "#e21935" };
+          setAlert(alertMsg.mesg, alertMsg.color);
+        }
+
+      });
     } else {
-      console.log("Invalid Form");
+      const alertMsg = { mesg: "Sales adding failed. Try Again", color: "#e21935" };
+      setAlert(alertMsg.mesg, alertMsg.color);
     }
   };
   return (
     <div className="AddSaleContainer form shadow-lg">
+      <div >
+        <SuccesAlert
+          data={alertData}
+          onAlertClose={() => {
+            setalertData({ ...alertData, data: "", color: "" });
+            clearSaleData();
+          }}
+        />
+      </div>
+
       <div
         className="d-flex align-items-center"
         style={{ marginBottom: "10px" }}
@@ -302,11 +329,14 @@ const AddSale = () => {
             Type of fish
           </label>
           <select
+            ref={(scope) => {
+              dropDownListObj = scope;
+            }}
             className="form-select"
             id="inputGroupSelect01"
             onChange={handleChange}
           >
-            <option>Choose...</option>
+            <option >Choose...</option>
             {fishData.map(({ fishType }, index) => (
               <option key={index} value={fishType}>
                 {fishType}
