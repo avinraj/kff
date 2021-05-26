@@ -28,3 +28,11 @@ module.exports.updateOne = async (id, data) => {
     return null;
   }
 };
+module.exports.getById = async (id) =>{
+  try{
+    let check = await ActiveSale.findById(id);
+    if(check._id){return check}else{return null}
+  }catch(err){
+     return null;
+  }
+}

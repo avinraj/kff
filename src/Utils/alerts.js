@@ -1,5 +1,5 @@
-export default function succesAlert(props) {
-  console.log(props);
+export default function Alert(props) {
+  console.log(props.data);
   let divView = false;
   if (props.data.data !== "") {
     divView = true;

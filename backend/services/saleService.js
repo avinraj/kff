@@ -46,6 +46,10 @@ module.exports.addSaleAPI = async (saleData) => {
     const response = await DBmanager.insert(obj);
     return response;
   }
-
-  // return DBmanager.saleInsert(saleData);
 };
+module.exports.getCurrentSales = async (data) =>{
+  const idString = "60aa744e6a29ec1f1bd8c907";
+  const id = ObjectId(idString);
+  const response = await DBmanager.getById(id)
+  return response;
+}

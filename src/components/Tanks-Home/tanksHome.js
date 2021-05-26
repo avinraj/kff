@@ -107,6 +107,11 @@ const TankModal = (props) => {
       pathname: `/Add-Sale/${props.tankID}/${props.mmyy}`
     });
   };
+  const redirectCurrentSale = () =>{
+    history.push({
+      pathname: `/Current-Sales/${props.tankID}/${props.mmyy}`
+    })
+  }
 
   return (
     <>
@@ -128,13 +133,13 @@ const TankModal = (props) => {
               <p>{props.mmyy}</p>
             </div>
             <div className="modal-footer d-flex justify-content-evenly">
-              <a
+              <button
                 className="btn btn-warning shadow"
-                href="/Current-Sales"
-                role="button"
+               onClick={redirectCurrentSale}
+               data-bs-dismiss = "modal"
               >
                 Current Sales
-              </a>
+              </button>
               <a
                 className="btn btn-success shadow"
                 href="/Sales-istory"

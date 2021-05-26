@@ -5,7 +5,7 @@ import fishData from "../../Data/fishData";
 import "react-datepicker/dist/react-datepicker.css";
 import { useParams } from "react-router-dom";
 import API from "../../Utils/salesbaseUrl";
-import SuccesAlert from "../../Utils/alerts";
+import Alert from "../../Utils/alerts";
 const AddSale = () => {
   let dropDownListObj;
   const { id, mmyy } = useParams();
@@ -256,7 +256,7 @@ const AddSale = () => {
   return (
     <div className="AddSaleContainer form shadow-lg">
       <div >
-        <SuccesAlert
+        <Alert
           data={alertData}
           onAlertClose={() => {
             setalertData({ ...alertData, data: "", color: "" });

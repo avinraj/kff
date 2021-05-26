@@ -1,0 +1,61 @@
+.alertDiv {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+.tableDiv {
+  margin-top: 106px;
+  text-align: center;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+thead tr th{
+    position: sticky;
+    top: 0
+}
+@media only screen and (max-width: 800px) {
+.tableDiv{
+   max-height: 500px;
+}
+.date{
+    min-width: 82px;
+}
+.headingDiv{
+  margin-top: -40px;
+    width: 95%;
+    position: absolute;
+    padding: 6px;
+}
+}
+@media only screen and (min-width: 800px) {
+    .tableDiv{
+        max-height: 460px;
+        margin-left: 10%;
+        margin-right: 10%;
+        border-radius: 20px;
+    }
+    .headingDiv{
+      margin-top: -40px;
+      width: 50%;
+      margin-left: 25%;
+      position: absolute;
+      padding: 6px;
+    }
+    }
+    @media only screen and (min-width: 600px) and (max-width: 835px){
+      .mainCurrentSaleDiv{
+        width: 830px
+      }
+    }
+    
