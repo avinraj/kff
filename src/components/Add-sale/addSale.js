@@ -115,8 +115,8 @@ const AddSale = () => {
       price: "",
       balance: "",
       amountReciv: "",
-      payType: "cash",
-      payComp: false,
+      payType: saleData.payType,
+      payComp: saleData.payComp,
     });
   };
   const handleChange = (e) => {
@@ -240,15 +240,17 @@ const AddSale = () => {
         console.log(res);
         if (res.status === 200) {
           const alertMsg = { mesg: "Sales added successfully", color: "#0aab52" };
+          clearSaleData()
           setAlert(alertMsg.mesg, alertMsg.color);
         }
         else{
+          clearSaleData()
           const alertMsg = { mesg: "Sales adding failed. Try Again", color: "#e21935" };
           setAlert(alertMsg.mesg, alertMsg.color);
         }
-
       });
     } else {
+      clearSaleData()
       const alertMsg = { mesg: "Sales adding failed. Try Again", color: "#e21935" };
       setAlert(alertMsg.mesg, alertMsg.color);
     }
@@ -264,7 +266,6 @@ const AddSale = () => {
           }}
         />
       </div>
-
       <div
         className="d-flex align-items-center"
         style={{ marginBottom: "10px" }}

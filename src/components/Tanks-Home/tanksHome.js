@@ -99,7 +99,6 @@ class TanksHome extends Component {
     );
   }
 }
-
 const TankModal = (props) => {
   let history = useHistory();
   const redirect = () => {
@@ -112,7 +111,6 @@ const TankModal = (props) => {
       pathname: `/Current-Sales/${props.tankID}/${props.mmyy}`
     })
   }
-
   return (
     <>
       <div className="modal fade" tabIndex="-1" id="tankModal">

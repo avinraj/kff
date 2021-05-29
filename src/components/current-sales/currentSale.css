@@ -20,42 +20,44 @@
     background-position: 0% 50%;
   }
 }
-thead tr th{
-    position: sticky;
-    top: 0
+.selectFilter {
+  height: 28px;
+}
+thead tr th {
+  position: sticky;
+  top: 0;
 }
 @media only screen and (max-width: 800px) {
-.tableDiv{
-   max-height: 500px;
-}
-.date{
+  .tableDiv {
+    max-height: 500px;
+  }
+  .date {
     min-width: 82px;
-}
-.headingDiv{
-  margin-top: -40px;
+  }
+  .headingDiv {
+    margin-top: -40px;
     width: 95%;
     position: absolute;
     padding: 6px;
-}
+  }
 }
 @media only screen and (min-width: 800px) {
-    .tableDiv{
-        max-height: 460px;
-        margin-left: 10%;
-        margin-right: 10%;
-        border-radius: 20px;
-    }
-    .headingDiv{
-      margin-top: -40px;
-      width: 50%;
-      margin-left: 25%;
-      position: absolute;
-      padding: 6px;
-    }
-    }
-    @media only screen and (min-width: 600px) and (max-width: 835px){
-      .mainCurrentSaleDiv{
-        width: 830px
-      }
-    }
-    
+  .tableDiv {
+    max-height: 460px;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius: 20px;
+  }
+  .headingDiv {
+    margin-top: -40px;
+    width: 50%;
+    margin-left: 25%;
+    position: absolute;
+    padding: 6px;
+  }
+}
+@media only screen and (min-width: 600px) and (max-width: 835px) {
+  .mainCurrentSaleDiv {
+    width: 830px;
+  }
+}
