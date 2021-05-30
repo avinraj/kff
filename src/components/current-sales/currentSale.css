@@ -34,8 +34,14 @@ thead tr th {
   .date {
     min-width: 82px;
   }
+  .totalDiv {
+    position: absolute;
+    margin-top: -67px;
+    width: 95%;
+    padding: 6px;
+  }
   .headingDiv {
-    margin-top: -40px;
+    margin-top: -37px;
     width: 95%;
     position: absolute;
     padding: 6px;
@@ -47,6 +53,12 @@ thead tr th {
     margin-left: 10%;
     margin-right: 10%;
     border-radius: 20px;
+  }
+  .totalDiv{
+    position: absolute;
+    margin-top: -77px;
+    width: 75%;
+    padding: 6px;
   }
   .headingDiv {
     margin-top: -40px;

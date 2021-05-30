@@ -14,6 +14,8 @@ payType: String,
 payComp: Boolean,
 name: String
 }],
-saleStatus: String
+saleStatus: String,
+totalKg: Number,
+totalPrice: Number
 })
 module.exports = mongoose.model("ActiveSale", ActiveSaleSchema)

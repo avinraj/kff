@@ -348,10 +348,10 @@ const AddSale = () => {
       </div>
       <div className="d-flex flex-row align-items-center priceFlex">
         <label htmlFor="newSaleFormInput3" className="form-label priceLabel1">
-          price : {saleData.price} Rs
+          price : {saleData.price} ₹
         </label>
         <label htmlFor="newSaleFormlabel1" className="form-label balanceLabel ">
-          Balance : {saleData.balance}.Rs
+          Balance : {saleData.balance}.₹
         </label>
       </div>
       <div

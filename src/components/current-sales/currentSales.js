@@ -99,6 +99,13 @@ const CurrentSale = () => {
   if (saleData.sales) {
     return (
       <div className="mainCurrentSaleDiv">
+        <div className="totalDiv d-flex flex-row-reverse">
+          <h5>
+            Total:{" "}
+            <span className="badge bg-success" style={{marginRight:"11px"}}>{saleData.totalKg} Kg</span>
+            <span className="badge bg-success">{saleData.totalPrice} ₹</span>
+          </h5>
+        </div>
         <div className="headingDiv d-flex justify-content-between">
           <h4>
             Tank :<span className="badge bg-secondary">{saleData.tankNo}</span>
@@ -191,7 +198,11 @@ const CurrentSale = () => {
                 </th>
                 <th scope="col" style={{ minWidth: "140px" }}>
                   <div style={{ display: filter ? "contents" : "none" }}>
-                    <select id="fishType" onChange={handleFilterChange} className="selectFilter">
+                    <select
+                      id="fishType"
+                      onChange={handleFilterChange}
+                      className="selectFilter"
+                    >
                       <option>Choose...</option>
                       {fishData.map(({ fishType }, index) => (
                         <option key={index} value={fishType}>
@@ -211,7 +222,11 @@ const CurrentSale = () => {
                 </th>
                 <th scope="col" style={{ minWidth: "145px" }}>
                   <div style={{ display: filter ? "contents" : "none" }}>
-                    <select id="payComp" onChange={handleFilterChange} className="selectFilter">
+                    <select
+                      id="payComp"
+                      onChange={handleFilterChange}
+                      className="selectFilter"
+                    >
                       <option>Choose...</option>
                       <option value="true">Completed</option>
                       <option value="false">Not completed</option>
@@ -222,7 +237,11 @@ const CurrentSale = () => {
                 </th>
                 <th scope="col" style={{ minWidth: "140px" }}>
                   <div style={{ display: filter ? "contents" : "none" }}>
-                    <select id="payType" onChange={handleFilterChange} className="selectFilter">
+                    <select
+                      id="payType"
+                      onChange={handleFilterChange}
+                      className="selectFilter"
+                    >
                       <option>Choose...</option>
                       <option value="cash">Cash</option>
                       <option value="Gpay">G-pay</option>

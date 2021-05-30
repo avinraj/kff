@@ -1,11 +1,11 @@
 const DBmanager = require("../manager/DBmanager");
 const ObjectId = require("mongodb").ObjectID;
 module.exports.addSaleAPI = async (saleData) => {
-  let obj = {};
-  const idString = "60aa744e6a29ec1f1bd8c907"; // _id should be passed here
+  let obj, totalObj = {};
+  const idString = "60b35485ee39df20d7fa403f"; // _id should be passed here
   const id = ObjectId(idString);
   saleData.saleStatus = "active";
-  const checkIdRes = await DBmanager.findByID(id);
+  const checkIdRes = await DBmanager.getByI(id);
   if (checkIdRes) {
     obj = {
       name: saleData.name,
@@ -19,7 +19,11 @@ module.exports.addSaleAPI = async (saleData) => {
       payType: saleData.payType,
       payComp: saleData.payComp,
     };
-    const response = await DBmanager.updateOne(id, obj);
+    totalObj = {
+      totalKg : checkIdRes.totalKg + parseInt(saleData.kg,10),
+      totalPrice: checkIdRes.totalPrice + parseInt(saleData.price,10)
+    }
+    const response = await DBmanager.updateOne(id, obj, totalObj);
     return response;
   } else {
     obj = {
@@ -40,13 +44,15 @@ module.exports.addSaleAPI = async (saleData) => {
         },
       ],
       saleStatus: saleData.saleStatus,
+      totalKg: parseInt(saleData.kg,10),
+      totalPrice: parseInt(saleData.price,10)
     };
     const response = await DBmanager.insert(obj);
     return response;
   }
 };
 module.exports.getCurrentSales = async (data) => {
-  const idString = "60aa744e6a29ec1f1bd8c907";
+  const idString = "60b35485ee39df20d7fa403f";
   const id = ObjectId(idString);
   const response = await DBmanager.getById(id);
   return response;
