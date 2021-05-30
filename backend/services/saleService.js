@@ -5,7 +5,7 @@ module.exports.addSaleAPI = async (saleData) => {
   const idString = "60b35485ee39df20d7fa403f"; // _id should be passed here
   const id = ObjectId(idString);
   saleData.saleStatus = "active";
-  const checkIdRes = await DBmanager.getByI(id);
+  const checkIdRes = await DBmanager.getById(id);
   if (checkIdRes) {
     obj = {
       name: saleData.name,

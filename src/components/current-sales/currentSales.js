@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 import API from "../../Utils/salesbaseUrl";
 import Alert from "../../Utils/alerts";
 import fishData from "../../Data/fishData";
+import ViewSale from "../view-Sale/viewSale";
 const CurrentSale = () => {
   const { id, mmyy } = useParams();
+  const [selectedSale, setSelectedSale] = useState({})
   const [filter, setFilter] = useState(false);
   const [alertData, setalertData] = useState({
     data: "",
@@ -102,7 +104,9 @@ const CurrentSale = () => {
         <div className="totalDiv d-flex flex-row-reverse">
           <h5>
             Total:{" "}
-            <span className="badge bg-success" style={{marginRight:"11px"}}>{saleData.totalKg} Kg</span>
+            <span className="badge bg-success" style={{ marginRight: "11px" }}>
+              {saleData.totalKg} Kg
+            </span>
             <span className="badge bg-success">{saleData.totalPrice} ₹</span>
           </h5>
         </div>
@@ -272,22 +276,70 @@ const CurrentSale = () => {
                   <tr
                     key={index}
                     onClick={() => {
-                      console.log(index);
+                      setSelectedSale(saleData.sales[index])
                     }}
                   >
-                    <th></th>
-                    <th>{name}</th>
-                    <th>{kg}</th>
-                    <th>{fishType}</th>
-                    <th>{price}</th>
-                    <th className="date">{date.slice(0, 10)}</th>
-                    <th>{payComp ? "Completed" : "Not Completed"}</th>
-                    <th>{payType}</th>
+                    <th
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasExample"
+                      aria-controls="offcanvasExample"
+                    ></th>
+                    <th
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasExample"
+                      aria-controls="offcanvasExample"
+                    >
+                      {name}
+                    </th>
+                    <th
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasExample"
+                      aria-controls="offcanvasExample"
+                    >
+                      {kg}
+                    </th>
+                    <th
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasExample"
+                      aria-controls="offcanvasExample"
+                    >
+                      {fishType}
+                    </th>
+                    <th
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasExample"
+                      aria-controls="offcanvasExample"
+                    >
+                      {price}
+                    </th>
+                    <th
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasExample"
+                      aria-controls="offcanvasExample"
+                      className="date"
+                    >
+                      {date.slice(0, 10)}
+                    </th>
+                    <th
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasExample"
+                      aria-controls="offcanvasExample"
+                    >
+                      {payComp ? "Completed" : "Not Completed"}
+                    </th>
+                    <th
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasExample"
+                      aria-controls="offcanvasExample"
+                    >
+                      {payType}
+                    </th>
                   </tr>
                 )
               )}
             </tbody>
           </table>
+          <ViewSale data={selectedSale}/>
         </div>
       </div>
     );
