@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "./addSale.css";
 import fishData from "../../Data/fishData";
@@ -6,11 +6,18 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useParams } from "react-router-dom";
 import API from "../../Utils/salesbaseUrl";
 import Alert from "../../Utils/alerts";
-const AddSale = () => {
+import { useHistory } from "react-router-dom";
+const AddSale = (props) => {
+  let history = useHistory();
   let dropDownListObj;
+  let editMode = false;
+  if (Object.entries(props.location.state.data).length === 0) {
+    editMode = false;
+  } else {
+    editMode = true;
+  }
   const { id, mmyy } = useParams();
-  console.log(id);
-  console.log(mmyy);
+  console.log(props.location.state.data, "PROPS DATA");
   const validateForm = (errors) => {
     let valid = true;
     Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
@@ -23,20 +30,54 @@ const AddSale = () => {
   const setAlert = (msg, color) => {
     setalertData({ ...alertData, data: msg, color: color });
   };
+
   const [saleData, setSaleData] = useState({
-    kg: "1",
-    cleaning: false,
-    name: "",
-    date: new Date(),
-    fishType: "",
-    price: "",
-    balance: "",
-    amountReciv: "",
-    payType: "cash",
-    payComp: false,
+    kg: props.location.state.data.kg ? props.location.state.data.kg : "1",
+    cleaning: props.location.state.data.cleaning
+      ? props.location.state.data.cleaning
+      : false,
+    name: props.location.state.data.name ? props.location.state.data.name : "",
+    date: props.location.state.data.date
+      ? new Date(props.location.state.data.date)
+      : new Date(),
+    fishType: props.location.state.data.fishType
+      ? props.location.state.data.fishType
+      : "",
+    price: props.location.state.data.price
+      ? props.location.state.data.price
+      : "",
+    balance: props.location.state.data.balance
+      ? props.location.state.data.balance
+      : "",
+    amountReciv: props.location.state.data.amountReciv
+      ? props.location.state.data.amountReciv
+      : "",
+    payType: props.location.state.data.payType
+      ? props.location.state.data.payType
+      : "cash",
+    payComp: props.location.state.data.payComp
+      ? props.location.state.data.payComp
+      : false,
     tankID: id,
     mmyy: mmyy,
+    tank_id: props.location.state.data._id ? props.location.state.data._id : "",
+    tank_ID: props.location.state.data.tankID ? props.location.state.data.tankID : ""
   });
+  useEffect(() => {
+    function setRadioButtons() {
+      if(editMode){
+        document.getElementById(props.location.state.data.payType).checked = true
+        document.getElementById(props.location.state.data.payComp).checked = true
+      }
+      else{
+       document.getElementById("cash").checked = true
+       document.getElementById("false").checked = true
+      }
+    }
+    setRadioButtons()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+ 
   const [errors, setErrors] = useState({
     kgError: "",
     amountError: "",
@@ -53,6 +94,7 @@ const AddSale = () => {
         break;
     }
   };
+
   const setKgValue = (kgValue, priceValue, balanceValue) => {
     setSaleData({
       ...saleData,
@@ -101,26 +143,53 @@ const AddSale = () => {
     setSaleData({ ...saleData, payType: value });
   };
   const setPayCompValue = (value) => {
-    setSaleData({ ...saleData, payComp: value });
+    if (value === "true") {
+      setSaleData({ ...saleData, payComp: true });
+    } else {
+      setSaleData({ ...saleData, payComp: false });
+    }
   };
   const clearSaleData = () => {
     dropDownListObj.value = null;
     setSaleData({
       ...saleData,
-      kg: "1",
-      cleaning: false,
-      name: "",
-      date: new Date(),
-      fishType: "",
-      price: "",
-      balance: "",
-      amountReciv: "",
-      payType: saleData.payType,
-      payComp: saleData.payComp,
+      kg: props.location.state.data.kg ? props.location.state.data.kg : "1",
+      cleaning: props.location.state.data.cleaning
+        ? props.location.state.data.cleaning
+        : false,
+      name: props.location.state.data.name
+        ? props.location.state.data.name
+        : "",
+      date: props.location.state.data.date
+        ? new Date(props.location.state.data.date)
+        : new Date(),
+      fishType: props.location.state.data.fishType
+        ? props.location.state.data.fishType
+        : "",
+      price: props.location.state.data.price
+        ? props.location.state.data.price
+        : "",
+      balance: props.location.state.data.balance
+        ? props.location.state.data.balance
+        : "",
+      amountReciv: props.location.state.data.amountReciv
+        ? props.location.state.data.amountReciv
+        : "",
+      payType: props.location.state.data.payType
+        ? props.location.state.data.payType
+        : saleData.payType,
+      payComp: props.location.state.data.payComp
+        ? props.location.state.data.payComp
+        : saleData.payComp,
     });
+    if (editMode) {
+      document.getElementById(props.location.state.data.payType).checked = true;
+      document.getElementById(props.location.state.data.payComp).checked = true;
+      document.getElementById(props.location.state.data.fishType).selected = true;
+    }
   };
   const handleChange = (e) => {
-    console.log(e.target.value);
+    console.log(e.target);
     if (e.target.id === "newSaleFormInput1") {
       checkErrro("kgError", e.target.value);
       if (saleData.fishType || saleData.amountReciv) {
@@ -239,25 +308,66 @@ const AddSale = () => {
       API.post("addSale", saleData).then((res) => {
         console.log(res);
         if (res.status === 200) {
-          const alertMsg = { mesg: "Sales added successfully", color: "#0aab52" };
-          clearSaleData()
+          const alertMsg = {
+            mesg: "Sales added successfully",
+            color: "#0aab52",
+          };
+          clearSaleData();
           setAlert(alertMsg.mesg, alertMsg.color);
-        }
-        else{
-          clearSaleData()
-          const alertMsg = { mesg: "Sales adding failed. Try Again", color: "#e21935" };
+        } else {
+          clearSaleData();
+          const alertMsg = {
+            mesg: "Sales adding failed. Try Again",
+            color: "#e21935",
+          };
           setAlert(alertMsg.mesg, alertMsg.color);
         }
       });
     } else {
-      clearSaleData()
-      const alertMsg = { mesg: "Sales adding failed. Try Again", color: "#e21935" };
+      clearSaleData();
+      const alertMsg = {
+        mesg: "Sales adding failed. Try Again",
+        color: "#e21935",
+      };
       setAlert(alertMsg.mesg, alertMsg.color);
     }
   };
+  const editedSaleSubmit = () =>{
+    if (
+      validateForm(errors) &&
+      saleData.fishType !== "" &&
+      saleData.amountReciv !== ""
+    ) {
+      API.put("addSale",saleData).then((res)=>{
+        console.log(res)
+       if(res.status === 200){
+          history.push({
+            pathname: `/Current-Sales/${saleData.tankID}/${saleData.mmyy}`
+            
+          })
+       } else {
+        clearSaleData();
+        const alertMsg = {
+          mesg: "No Changes Applied.",
+          color: "#e21935",
+        };
+        setAlert(alertMsg.mesg, alertMsg.color);
+      }
+      })
+    }
+    else {
+      clearSaleData();
+      const alertMsg = {
+        mesg: "Sales adding failed. Try Again",
+        color: "#e21935",
+      };
+      setAlert(alertMsg.mesg, alertMsg.color);
+    }
+  }
+  console.log(saleData, "SALEDATA");
   return (
     <div className="AddSaleContainer form shadow-lg">
-      <div >
+      <div>
         <Alert
           data={alertData}
           onAlertClose={() => {
@@ -337,9 +447,14 @@ const AddSale = () => {
             id="inputGroupSelect01"
             onChange={handleChange}
           >
-            <option >Choose...</option>
+            <option>Choose...</option>
             {fishData.map(({ fishType }, index) => (
-              <option key={index} value={fishType}>
+              <option
+              id={fishType}
+                key={index}
+                value={fishType}
+                selected={saleData.fishType === fishType ? true : false}
+              >
                 {fishType}
               </option>
             ))}
@@ -383,12 +498,12 @@ const AddSale = () => {
             style={{ marginLeft: "1px" }}
             type="radio"
             name="flexRadioDefault"
-            id="flexRadioDefault1"
-            defaultChecked
+            id="cash"
+            // defaultChecked={saleData.payType === "cash" ? true: false}
             value="cash"
-            onChange={handleChange}
+            onClick={handleChange}
           />
-          <label className="form-check-label" htmlFor="flexRadioDefault1">
+          <label className="form-check-label" htmlFor="cash">
             Cash
           </label>
         </div>
@@ -398,11 +513,12 @@ const AddSale = () => {
             style={{ marginLeft: "1px" }}
             type="radio"
             name="flexRadioDefault"
-            id="flexRadioDefault2"
+            id="Gpay"
             value="Gpay"
-            onChange={handleChange}
+            // defaultChecked={saleData.payType === "Gpay" ? true : false}
+            onClick={handleChange}
           />
-          <label className="form-check-label" htmlFor="flexRadioDefault2">
+          <label className="form-check-label" htmlFor="Gpay">
             G-pay
           </label>
         </div>
@@ -417,11 +533,12 @@ const AddSale = () => {
             style={{ marginLeft: "1px" }}
             type="radio"
             name="flexRadioDefault2"
-            id="flexRadioDefault3"
+            id="true"
             value={true}
-            onChange={handleChange}
+            // defaultChecked={saleData.payComp === true ? true : false}
+            onClick={handleChange}
           />
-          <label className="form-check-label" htmlFor="flexRadioDefault3">
+          <label className="form-check-label" htmlFor="true">
             Yes
           </label>
         </div>
@@ -431,27 +548,53 @@ const AddSale = () => {
             style={{ marginLeft: "1px" }}
             type="radio"
             name="flexRadioDefault2"
-            id="flexRadioDefault"
-            defaultChecked
+            id="false"
+            // defaultChecked={saleData.payComp === false ? true : false}
             value={false}
-            onChange={handleChange}
+            onClick={handleChange}
           />
-          <label className="form-check-label" htmlFor="flexRadioDefault4">
+          <label className="form-check-label" htmlFor="false">
             No
           </label>
         </div>
       </div>
       <div className="d-flex justify-content-around">
-        <button type="button" className="btn btn-primary" onClick={saleSubmit}>
-          ADD
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={clearSaleData}
-        >
-          CLEAR
-        </button>
+        <div style={{ display: editMode ? "none" : "contents" }}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={saleSubmit}
+          >
+            ADD
+          </button>
+        </div>
+        <div style={{ display: editMode ? "none" : "contents" }}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={clearSaleData}
+          >
+            CLEAR
+          </button>
+        </div>
+        <div style={{ display: editMode ? "contents" : "none" }}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={editedSaleSubmit}
+          >
+            SAVE
+          </button>
+        </div>
+        <div style={{ display: editMode ? "contents" : "none" }}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={clearSaleData}
+          >
+            RESET
+          </button>
+        </div>
       </div>
     </div>
   );

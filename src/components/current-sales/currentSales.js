@@ -7,7 +7,7 @@ import fishData from "../../Data/fishData";
 import ViewSale from "../view-Sale/viewSale";
 const CurrentSale = () => {
   const { id, mmyy } = useParams();
-  const [selectedSale, setSelectedSale] = useState({})
+  const [selectedSale, setSelectedSale] = useState({});
   const [filter, setFilter] = useState(false);
   const [alertData, setalertData] = useState({
     data: "",
@@ -96,6 +96,25 @@ const CurrentSale = () => {
         await setFilters({ ...filters, payType: e.target.value });
       }
     }
+  }
+  async function onClickSelectedSale(data) {
+    let obj = {
+      amountReciv: data.amount,
+      balance: data.balance,
+      cleaning: data.cleaning,
+      date: data.date,
+      fishType: data.fishType,
+      kg: data.kg,
+      name: data.name,
+      payComp: data.payComp,
+      payType: data.payType,
+      price: data.price,
+      _id: data._id,
+      tankID: saleData._id,
+      tankNo: saleData.tankNo,
+      mmyy: saleData.mmyy,
+    };
+   await setSelectedSale(obj);
   }
   console.log(filters);
   if (saleData.sales) {
@@ -276,7 +295,7 @@ const CurrentSale = () => {
                   <tr
                     key={index}
                     onClick={() => {
-                      setSelectedSale(saleData.sales[index])
+                      onClickSelectedSale(saleData.sales[index]);
                     }}
                   >
                     <th
@@ -339,7 +358,7 @@ const CurrentSale = () => {
               )}
             </tbody>
           </table>
-          <ViewSale data={selectedSale}/>
+          <ViewSale data={selectedSale} />
         </div>
       </div>
     );

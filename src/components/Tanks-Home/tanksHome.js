@@ -103,12 +103,14 @@ const TankModal = (props) => {
   let history = useHistory();
   const redirect = () => {
     history.push({
-      pathname: `/Add-Sale/${props.tankID}/${props.mmyy}`
+      pathname: `/Add-Sale/${props.tankID}/${props.mmyy}`,
+      state: {data: {}}
     });
   };
   const redirectCurrentSale = () =>{
     history.push({
       pathname: `/Current-Sales/${props.tankID}/${props.mmyy}`
+      
     })
   }
   return (

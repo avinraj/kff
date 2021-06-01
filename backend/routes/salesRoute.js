@@ -15,6 +15,21 @@ router.post("/addSale", async (req, res) => {
     res.status(204).send();
   }
 });
+router.put("/addSale", async (req,res) =>{
+  console.log(req.body,"Edited data")
+  if(Object.keys(req.body).length){
+    const response = await saleServie.editedSaleAPI(req.body);
+    console.log(response,"RESPONSE RESULT");
+    if (response === true) {
+      res.json(201).send();
+    } else {
+      res.status(204).send();
+    }
+  }
+  else{
+    res.status(204).send();
+  }
+})
 router.post("/currentSales", async (req, res) => {
   console.log(req.body);
   if (Object.keys(req.body).length) {

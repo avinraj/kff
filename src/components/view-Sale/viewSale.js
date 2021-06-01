@@ -1,16 +1,29 @@
 import "./viewSale.css";
+import { useHistory } from "react-router-dom";
 export default function ViewReact(props) {
+  let history = useHistory();
   console.log(props, "Selected sale");
   if (props.data) {
+    const onEditClick = () => {
+      history.push({
+        pathname: `/Add-Sale/${props.data.tankNo}/${props.data.mmyy}`,
+        state: {data: props.data}
+      });
+    };
     return (
       <div
         className="offcanvas offcanvas-start"
+        style={{
+          backgroundColor: "#3eb6ca",
+          color: "black",
+          borderRadius: "65px",
+        }}
         tabIndex="-1"
         id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel"
       >
         <div className="offcanvas-header">
-          <h1 style={{ marginLeft: "35%", fontWeight: "bolder" }}>Sale Info</h1>
+          <h1 style={{ marginLeft: "30%", fontWeight: "bolder" }}>Sale Info</h1>
           <button
             type="button"
             className="btn-close text-reset"
@@ -19,72 +32,78 @@ export default function ViewReact(props) {
           ></button>
         </div>
         <div className="offcanvas-body fw-bolder">
-          <div>
-            <div className="d-flex justify-content-between viewSaleFlex">
-              <label>
-                Customer Name:{" "}
-                <span className="badge bg-dark text-wrap">
-                  {props.data.name}
-                </span>
-              </label>
-              <label>Date: </label>
-            </div>
-            <div className="d-flex justify-content-between viewSaleFlex">
-              <label>
-                Type of Fish :{" "}
-                <span className="badge bg-dark text-wrap">
-                  {props.data.fishType}
-                </span>
-              </label>
-              <label>
-                No. of Kg :{" "}
-                <span className="badge bg-dark text-wrap">{props.data.kg}</span>
-              </label>
-            </div>
-            <div className="d-flex justify-content-between align-items-center viewSaleFlex">
-              <div className="d-flex flex-column">
-                <label>
-                  Price:{" "}
-                  <span className="badge bg-dark text-wrap">
-                    {props.data.price}
-                  </span>
-                </label>
-                <label
-                  style={{
-                    display: props.data.cleaning ? "contents" : "none",
-                    fontStyle: "italic",
-                    fontWeight: "lighter",
-                  }}
-                >
-                  * Cleaning included
-                </label>
-              </div>
-              <label>
-                Amount Recieved :{" "}
-                <span className="badge bg-dark text-wrap">
-                  {props.data.amount}
-                </span>
+          <div className="d-flex flex-column">
+            <label className="viewSaleFlex">
+              Customer Name : {props.data.name}
+            </label>
+            {/* <label  className="viewSaleFlex">Date: {props.data.date.substr(0,10)}</label> */}
+            <label className="viewSaleFlex">
+              Type of Fish : {props.data.fishType}
+            </label>
+            <label className="viewSaleFlex">No. of Kg : {props.data.kg}</label>
+            <div className="d-flex flex-column">
+              <label className="viewSaleFlex">Price : {props.data.price}</label>
+              <label
+                style={{
+                  display: props.data.cleaning ? "contents" : "none",
+                  fontStyle: "italic",
+                  fontWeight: "lighter",
+                }}
+              >
+                * Cleaning included
               </label>
             </div>
-            <div className="d-flex flex-column viewSaleFlex">
-              <label>
-                Payement Status :{" "}
-                <span className="badge bg-dark text-wrap">
-                  {props.data.payComp ? "Completed" : "Not completed"}
-                </span>
-              </label>
-              <label>
-                Payement Type :{" "}
-                <span className="badge bg-dark text-wrap">
-                  {props.data.payType}
-                </span>
-              </label>
-            </div>
-            <div className="d-flex justify-content-center viewSaleFlex">
-              <button type="button" className="btn btn-primary">
+            <label className="viewSaleFlex">
+              Amount Recieved : {props.data.amountReciv}
+            </label>
+
+            <label className="viewSaleFlex">
+              Payement Status :{" "}
+              {props.data.payComp ? "Completed" : "Not completed"}
+            </label>
+            <label className="viewSaleFlex">
+              Payement Type : {props.data.payType}
+            </label>
+
+            <div>
+              <button
+                type="button"
+                className="btn btn-primary viewSaleFlex"
+                data-bs-dismiss="offcanvas"
+                onClick={onEditClick}
+              >
                 Edit
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div
+        className="offcanvas offcanvas-start"
+        style={{
+          backgroundColor: "#3eb6ca",
+          color: "black",
+          borderRadius: "65px",
+        }}
+        tabIndex="-1"
+        id="offcanvasExample"
+        aria-labelledby="offcanvasExampleLabel"
+      >
+        <div className="offcanvas-header">
+          <h1 style={{ marginLeft: "30%", fontWeight: "bolder" }}>Sale Info</h1>
+          <button
+            type="button"
+            className="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div className="offcanvas-body fw-bolder">
+          <div className="d-flex flex-column">
+            <h3>Data not available.Please try again later..</h3>
           </div>
         </div>
       </div>

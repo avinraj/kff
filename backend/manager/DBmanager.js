@@ -43,4 +43,46 @@ module.exports.updateOne = async (id, data, totalObj) => {
     return null;
   }
 };
-
+module.exports.updateEditedOne = async (id, innerID, data) => {
+  try {
+    const response = await ActiveSale.updateOne(
+      { _id: id, "sales._id": innerID },
+      {
+        $set: {
+          "sales.$.name": data.name,
+          "sales.$.kg": data.kg,
+          "sales.$.cleaning": data.cleaning,
+          "sales.$.date": data.date,
+          "sales.$.fishType": data.fishType,
+          "sales.$.price": data.price,
+          "sales.$.balance": data.balance,
+          "sales.$.amount": data.amountReciv,
+          "sales.$.payType": data.payType,
+          "sales.$.payComp": data.payComp,
+        },
+      }
+    );
+    if (response.nModified) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return null;
+  }
+};
+module.exports.updateTotalValues = async (id, obj) =>{
+  try{
+    const response = await ActiveSale.updateOne(
+      {_id: id},{$set: {totalKg: obj.totalKg, totalPrice: obj.totalPrice}}
+    )
+    if (response.nModified) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  catch(err){
+    return null
+  }
+}
