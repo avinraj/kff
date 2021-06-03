@@ -1,7 +1,12 @@
 import "./viewSale.css";
 import { useHistory } from "react-router-dom";
+import DeleteMsgBox from "../../Utils/deleteMsgBox";
+import { useState } from "react";
 export default function ViewReact(props) {
   let history = useHistory();
+  const [deleteMsg, setdeleteMsg] = useState({
+    msg: ""
+  })
   console.log(props, "Selected sale");
   if (props.data) {
     const onEditClick = () => {
@@ -65,19 +70,33 @@ export default function ViewReact(props) {
               Payement Type : {props.data.payType}
             </label>
 
-            <div>
+            <div >
               <button
                 type="button"
                 className="btn btn-primary viewSaleFlex"
+                style={{marginRight: "100px"}}
                 data-bs-dismiss="offcanvas"
                 onClick={onEditClick}
               >
                 Edit
               </button>
+              <button
+                type="button"
+                className="btn btn-secondary viewSaleFlex"
+                // data-bs-dismiss="offcanvas"
+                onClick={() => {setdeleteMsg({msg: "This data will be removed permanently,Do you want to continue"})}}
+              >
+                DELETE
+              </button>
             </div>
           </div>
+         {deleteMsg.msg !=="" ? <DeleteMsgBox data={deleteMsg} onDeleteMsgBoxClose={() =>{
+            setdeleteMsg({msg:""})
+          }}/> : null } 
         </div>
+     
       </div>
+     
     );
   } else {
     return (

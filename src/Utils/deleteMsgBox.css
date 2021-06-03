@@ -1,0 +1,25 @@
+ .start-50 {
+    left: 27%!important;
+}
+.top-50 {
+    top: 50%!important;
+}
+@media only screen and (max-width: 600px) {
+    .translate-middle {
+        transform: translate(-19%,-34%)!important;
+    }
+    .top-50 {
+        top: 60%!important;
+    }
+  }
+  @media only screen and (min-width: 600px)and (max-width: 1000px) {
+    .translate-middle {
+        transform: translate(122%,-44%)!important;
+    }
+  }  
+@media only screen and (min-width: 1000px) {
+    .translate-middle {
+        width: 367px;
+        transform: translate(122%,-44%)!important;
+    }
+  }
