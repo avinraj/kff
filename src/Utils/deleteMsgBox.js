@@ -1,14 +1,22 @@
 import "./deleteMsgBox.css";
+
+import API from "./salesbaseUrl";
 import React, { useEffect, useRef, useState } from "react";
+import Alert from "./alerts";
 export default function DeleteMsgBox(props) {
+ 
+  const [alertData, setalertData] = useState({
+    data: "",
+    color: "",
+  });
   const [divView, setdivView] = useState(false);
-  console.log(props.data.msg);
+  console.log(props.data);
   const box = useRef(null);
   useEffect(() => {
     if (props.data.msg !== "") {
       setdivView(true);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -18,15 +26,49 @@ export default function DeleteMsgBox(props) {
           props.onDeleteMsgBoxClose();
         }
       }
-       // Adding click event listener
+      // Adding click event listener
       document.addEventListener("click", handleOutsideClick);
     }, [ref]);
   }
   useOutsideAlerter(box);
-  console.log(divView, "DIV VIEW");
+  const onClickDelete = () => {
+    API.delete(`addSale/${props.data._id}/${props.data.tankID}`)
+      .then((res) => {
+        if (res.status === 200) {
+          // history.push({
+          //   pathname: `/Current-Sales/${props.data.tankNo}/${props.data.mmyy}`,
+          // });
+          props.onDeleteMsgBoxClose()
+          props.onCanvasClose()
+        } else {
+          setalertData({
+            ...alertData,
+            data: "Sales deleting failed. Try Again",
+            color: "#e21935",
+          });
+        }
+      })
+      .catch((err) => {
+        setalertData({
+          ...alertData,
+          data: "Sales deleting failed. Try Again",
+          color: "#e21935",
+        });
+      });
+  };
 
   return (
     <div ref={box}>
+      <div className="alertDiv">
+        <Alert
+          data={alertData}
+          onAlertClose={() => {
+            setalertData({ ...alertData, data: "", color: "" });
+            props.onDeleteMsgBoxClose()
+          }}
+        />
+      </div>
+
       <div
         className="top-50 start-50 translate-middle"
         style={{ zIndex: "5", position: "absolute" }}
@@ -58,8 +100,15 @@ export default function DeleteMsgBox(props) {
           >
             <h5 style={{ maxWidth: "400px" }}>{props.data.msg}</h5>
             <div className="d-flex justify-content-around">
-              <button className="btn btn-primary">Yes</button>
-              <button className="btn btn-secondary"  onClick={props.onDeleteMsgBoxClose}>No</button>
+              <button className="btn btn-primary" onClick={onClickDelete}>
+                Yes
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={props.onDeleteMsgBoxClose}
+              >
+                No
+              </button>
             </div>
           </div>
         </div>

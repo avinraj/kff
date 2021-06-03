@@ -15,21 +15,36 @@ router.post("/addSale", async (req, res) => {
     res.status(204).send();
   }
 });
-router.put("/addSale", async (req,res) =>{
-  console.log(req.body,"Edited data")
-  if(Object.keys(req.body).length){
+router.put("/addSale", async (req, res) => {
+  console.log(req.body, "Edited data");
+  if (Object.keys(req.body).length) {
     const response = await saleServie.editedSaleAPI(req.body);
-    console.log(response,"RESPONSE RESULT");
+    console.log(response, "RESPONSE RESULT");
     if (response === true) {
       res.json(201).send();
     } else {
       res.status(204).send();
     }
-  }
-  else{
+  } else {
     res.status(204).send();
   }
-})
+});
+router.delete("/addSale/:id/:tankID", async (req, res) => {
+  if (req.params.id && req.params.tankID) {
+    const obj = {
+      id: req.params.id,
+      tankID: req.params.tankID,
+    };
+    const response = await saleServie.deleteSaleAPI(obj);
+    if (response === true) {
+      res.status(200).send();
+    } else {
+      res.status(204).send();
+    }
+  } else {
+    res.status(204).send();
+  }
+});
 router.post("/currentSales", async (req, res) => {
   console.log(req.body);
   if (Object.keys(req.body).length) {

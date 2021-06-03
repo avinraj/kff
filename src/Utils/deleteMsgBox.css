@@ -11,15 +11,28 @@
     .top-50 {
         top: 60%!important;
     }
+
+    .alertDiv{
+        position: absolute;
+        top: 0px;
+    }
   }
   @media only screen and (min-width: 600px)and (max-width: 1000px) {
     .translate-middle {
         transform: translate(122%,-44%)!important;
+    }
+    .alertDiv{
+        position: absolute;
+        transform: translate(150%,-367%)!important;
     }
   }  
 @media only screen and (min-width: 1000px) {
     .translate-middle {
         width: 367px;
         transform: translate(122%,-44%)!important;
+    }
+    .alertDiv{
+        position: absolute;
+        transform: translate(200%,-367%)!important;
     }
   }

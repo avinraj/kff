@@ -71,18 +71,33 @@ module.exports.updateEditedOne = async (id, innerID, data) => {
     return null;
   }
 };
-module.exports.updateTotalValues = async (id, obj) =>{
-  try{
+module.exports.deleteSale = async (data) => {
+  try {
     const response = await ActiveSale.updateOne(
-      {_id: id},{$set: {totalKg: obj.totalKg, totalPrice: obj.totalPrice}}
-    )
+      { _id: data.tankID },
+      { $pull: { sales: { _id: data.id } } }
+    );
     if (response.nModified) {
       return true;
     } else {
       return false;
     }
+  } catch (err) {
+    return null;
   }
-  catch(err){
-    return null
+};
+module.exports.updateTotalValues = async (id, obj) => {
+  try {
+    const response = await ActiveSale.updateOne(
+      { _id: id },
+      { $set: { totalKg: obj.totalKg, totalPrice: obj.totalPrice } }
+    );
+    if (response.nModified) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return null;
   }
-}
+};

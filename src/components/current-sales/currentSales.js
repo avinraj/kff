@@ -45,7 +45,7 @@ const CurrentSale = () => {
     }
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  },[selectedSale]);
   useEffect(() => {
     const fetchFilterData = () => {
       API.post("filter", filters)
@@ -358,7 +358,9 @@ const CurrentSale = () => {
               )}
             </tbody>
           </table>
-          <ViewSale data={selectedSale} />
+          <ViewSale data={selectedSale} onoffCanvasClose={() =>{
+            setSelectedSale({})
+          }} />
         </div>
       </div>
     );

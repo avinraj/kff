@@ -67,6 +67,23 @@ module.exports.editedSaleAPI = async (data) => {
     return null;
   }
 };
+module.exports.deleteSaleAPI = async (data) => {
+  const obj = {
+    id: ObjectId(data.id),
+    tankID: ObjectId(data.tankID),
+  };
+  const response = await DBmanager.deleteSale(obj);
+  if (response === true) {
+    const res = await setTotalValues(obj.tankID);
+    if (res === true || res === false) {
+      return true;
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
 module.exports.getCurrentSales = async (data) => {
   const idString = "60b35485ee39df20d7fa403f";
   const id = ObjectId(idString);
