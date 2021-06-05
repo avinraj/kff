@@ -69,7 +69,6 @@ const CurrentSale = () => {
     fetchFilterData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
-
   async function handleFilterChange(e) {
     console.log(e.target.value);
     if (e.target.id === "name") {

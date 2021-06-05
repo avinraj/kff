@@ -1,10 +1,8 @@
 import "./deleteMsgBox.css";
-
 import API from "./salesbaseUrl";
 import React, { useEffect, useRef, useState } from "react";
 import Alert from "./alerts";
 export default function DeleteMsgBox(props) {
- 
   const [alertData, setalertData] = useState({
     data: "",
     color: "",
@@ -16,8 +14,7 @@ export default function DeleteMsgBox(props) {
     if (props.data.msg !== "") {
       setdivView(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.data.msg]);
   function useOutsideAlerter(ref) {
     useEffect(() => {
       // Function for click event
@@ -35,9 +32,6 @@ export default function DeleteMsgBox(props) {
     API.delete(`addSale/${props.data._id}/${props.data.tankID}`)
       .then((res) => {
         if (res.status === 200) {
-          // history.push({
-          //   pathname: `/Current-Sales/${props.data.tankNo}/${props.data.mmyy}`,
-          // });
           props.onDeleteMsgBoxClose()
           props.onCanvasClose()
         } else {
@@ -56,7 +50,6 @@ export default function DeleteMsgBox(props) {
         });
       });
   };
-
   return (
     <div ref={box}>
       <div className="alertDiv">
@@ -68,7 +61,6 @@ export default function DeleteMsgBox(props) {
           }}
         />
       </div>
-
       <div
         className="top-50 start-50 translate-middle"
         style={{ zIndex: "5", position: "absolute" }}

@@ -65,7 +65,6 @@ export default function ViewReact(props) {
             <label className="viewSaleFlex">
               Amount Recieved : {props.data.amountReciv}
             </label>
-
             <label className="viewSaleFlex">
               Payement Status :{" "}
               {props.data.payComp ? "Completed" : "Not completed"}
@@ -73,7 +72,6 @@ export default function ViewReact(props) {
             <label className="viewSaleFlex">
               Payement Type : {props.data.payType}
             </label>
-
             <div>
               <button
                 type="button"
