@@ -3,11 +3,12 @@ const ObjectId = require("mongodb").ObjectID;
 module.exports.addSaleAPI = async (saleData) => {
   let obj,
     totalObj = {};
-  const idString = "60b35485ee39df20d7fa403f"; //tank _ID should be passed here
+  const idString = saleData.tank_ID; //tank _ID should be passed here
   const id = ObjectId(idString);
   saleData.saleStatus = "active";
   const checkIdRes = await DBmanager.getById(id);
-  if (checkIdRes) {
+   if (checkIdRes) {
+    console.log(checkIdRes)
     obj = {
       name: saleData.name,
       fishType: saleData.fishType,
@@ -27,29 +28,7 @@ module.exports.addSaleAPI = async (saleData) => {
     const response = await DBmanager.updateOne(id, obj, totalObj);
     return response;
   } else {
-    obj = {
-      tankNo: saleData.tankID,
-      mmyy: saleData.mmyy,
-      sales: [
-        {
-          name: saleData.name,
-          fishType: saleData.fishType,
-          kg: saleData.kg,
-          cleaning: saleData.cleaning,
-          date: saleData.date,
-          price: saleData.price,
-          amount: saleData.amountReciv,
-          balance: saleData.balance,
-          payType: saleData.payType,
-          payComp: saleData.payComp,
-        },
-      ],
-      saleStatus: saleData.saleStatus,
-      totalKg: parseInt(saleData.kg, 10),
-      totalPrice: parseInt(saleData.price, 10),
-    };
-    const response = await DBmanager.insert(obj);
-    return response;
+    return null
   }
 };
 module.exports.editedSaleAPI = async (data) => {
@@ -85,7 +64,7 @@ module.exports.deleteSaleAPI = async (data) => {
   }
 };
 module.exports.getCurrentSales = async (data) => {
-  const idString = "60b35485ee39df20d7fa403f";
+  const idString = data.ID;
   const id = ObjectId(idString);
   const response = await DBmanager.getById(id);
   return response;

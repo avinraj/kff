@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./currentSale.css";
 import { useParams } from "react-router-dom";
-import API from "../../Utils/salesbaseUrl";
+import {saleURL} from "../../Utils/salesbaseUrl";
 import Alert from "../../Utils/alerts";
 import fishData from "../../Data/fishData";
 import ViewSale from "../view-Sale/viewSale";
 const CurrentSale = () => {
-  const { id, mmyy } = useParams();
+  const { ID } = useParams();
   const [selectedSale, setSelectedSale] = useState({});
   const [filter, setFilter] = useState(false);
   const [alertData, setalertData] = useState({
@@ -29,7 +29,7 @@ const CurrentSale = () => {
   };
   useEffect(() => {
     async function fetchData() {
-      API.post("currentSales", { id, mmyy })
+      saleURL.post("currentSales", { ID })
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
@@ -48,7 +48,7 @@ const CurrentSale = () => {
   },[selectedSale]);
   useEffect(() => {
     const fetchFilterData = () => {
-      API.post("filter", filters)
+      saleURL.post("filter", filters)
         .then((res) => {
           console.log(res);
           if (res.status === 200) {

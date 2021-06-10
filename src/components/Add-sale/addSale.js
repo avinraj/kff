@@ -4,7 +4,7 @@ import "./addSale.css";
 import fishData from "../../Data/fishData";
 import "react-datepicker/dist/react-datepicker.css";
 import { useParams } from "react-router-dom";
-import API from "../../Utils/salesbaseUrl";
+import {saleURL} from "../../Utils/salesbaseUrl";
 import Alert from "../../Utils/alerts";
 import { useHistory } from "react-router-dom";
 const AddSale = (props) => {
@@ -16,7 +16,7 @@ const AddSale = (props) => {
   } else {
     editMode = true;
   }
-  const { id, mmyy } = useParams();
+  const { ID } = useParams();
   console.log(props.location.state.data, "PROPS DATA");
   const validateForm = (errors) => {
     let valid = true;
@@ -57,12 +57,12 @@ const AddSale = (props) => {
     payComp: props.location.state.data.payComp
       ? props.location.state.data.payComp
       : false,
-    tankID: id,
-    mmyy: mmyy,
+    // tankID: id,
+    // mmyy: mmyy,
     tank_id: props.location.state.data._id ? props.location.state.data._id : "",
     tank_ID: props.location.state.data.tankID
       ? props.location.state.data.tankID
-      : "",
+      : ID,
   });
   const handle = (obj) => {
     setSaleData((prevState) => ({
@@ -159,24 +159,20 @@ const AddSale = (props) => {
           const KgCleaning = Kg * obj.cleaning;
           const price = KgPrice + KgCleaning;
           if (saleData.cleaning) {
-            // setKgValue(e.target.value, price, saleData.amountReciv - price);
             handle({ name: "kg", value: e.target.value });
             handle({ name: "price", value: price });
             handle({ name: "balance", value: saleData.amountReciv - price });
           } else {
-            // setKgValue(e.target.value, KgPrice, saleData.amountReciv - KgPrice);
             handle({ name: "kg", value: e.target.value });
             handle({ name: "price", value: KgPrice });
             handle({ name: "balance", value: saleData.amountReciv - KgPrice });
           }
         } else {
-          // setKgValue(e.target.value, "", "");
           handle({ name: "kg", value: e.target.value });
           handle({ name: "price", value: "" });
           handle({ name: "balance", value: "" });
         }
       } else {
-        // setKgValue(e.target.value, "", "");
         handle({ name: "kg", value: e.target.value });
         handle({ name: "price", value: "" });
         handle({ name: "balance", value: "" });
@@ -184,7 +180,6 @@ const AddSale = (props) => {
     }
     if (e.target.id === "newSaleFormInput2") {
       handle({ name: "name", value: e.target.value });
-      // setNameValue(e.target.value);
     }
     if (e.target.id === "flexCheckIndeterminate") {
       if (e.target.value === "true") {
@@ -197,18 +192,10 @@ const AddSale = (props) => {
           handle({ name: "price", value: KgPrice.toString() });
           handle({ name: "amountReciv", value: saleData.amountReciv });
           handle({ name: "balance", value: saleData.amountReciv - KgPrice });
-          // setNewAmountBalancePriceValue(
-          //   false,
-          //   saleData.fishType,
-          //   KgPrice,
-          //   saleData.amountReciv,
-          //   saleData.amountReciv - KgPrice
-          // );
         } else {
           handle({ name: "cleaning", value: false });
           handle({ name: "fishType", value: "" });
           handle({ name: "price", value: "" });
-          // setFishtypePriceValue(false, "", "");
         }
       }
       if (e.target.value === "false") {
@@ -223,18 +210,10 @@ const AddSale = (props) => {
           handle({ name: "price", value: price.toString() });
           handle({ name: "amountReciv", value: saleData.amountReciv });
           handle({ name: "balance", value: saleData.amountReciv - price });
-          // setNewAmountBalancePriceValue(
-          //   true,
-          //   saleData.fishType,
-          //   price,
-          //   saleData.amountReciv,
-          //   saleData.amountReciv - price
-          // );
         } else {
           handle({ name: "cleaning", value: true });
           handle({ name: "fishType", value: "" });
           handle({ name: "price", value: "" });
-          // setFishtypePriceValue(true, "", "");
         }
       }
     }
@@ -245,7 +224,6 @@ const AddSale = (props) => {
         handle({ name: "price", value: "" });
         handle({ name: "amountReciv", value: "" });
         handle({ name: "balance", value: "" });
-        // setNewAmountBalancePriceValue(false, "", "", "", "");
       } else {
         const Kg = Number(saleData.kg);
         const obj = fishData.find((n) => n.fishType === e.target.value);
@@ -259,18 +237,10 @@ const AddSale = (props) => {
             handle({ name: "price", value: price.toString() });
             handle({ name: "amountReciv", value: saleData.amountReciv });
             handle({ name: "balance", value: saleData.amountReciv - price });
-            // setNewAmountBalancePriceValue(
-            //   true,
-            //   e.target.value,
-            //   price,
-            //   saleData.amountReciv,
-            //   saleData.amountReciv - price
-            // );
           } else {
             handle({ name: "cleaning", value: true });
             handle({ name: "fishType", value: e.target.value });
             handle({ name: "price", value: price.toString() });
-            // setFishtypePriceValue(true, e.target.value, price);
           }
         }
         if (saleData.cleaning === false) {
@@ -280,18 +250,10 @@ const AddSale = (props) => {
             handle({ name: "price", value: KgPrice.toString() });
             handle({ name: "amountReciv", value: saleData.amountReciv });
             handle({ name: "balance", value: saleData.amountReciv - KgPrice });
-            // setNewAmountBalancePriceValue(
-            //   false,
-            //   e.target.value,
-            //   KgPrice,
-            //   saleData.amountReciv,
-            //   saleData.amountReciv - KgPrice
-            // );
           } else {
             handle({ name: "cleaning", value: false });
             handle({ name: "fishType", value: e.target.value });
             handle({ name: "price", value: KgPrice.toString() });
-            // setFishtypePriceValue(false, e.target.value, KgPrice);
           }
         }
       }
@@ -300,15 +262,12 @@ const AddSale = (props) => {
       checkErrro("amountError", e.target.value);
       handle({ name: "amountReciv", value: e.target.value });
       handle({ name: "balance", value: e.target.value - saleData.price });
-      // setAmountBalanceValue(e.target.value, e.target.value - saleData.price);
     }
     if (e.target.name === "flexRadioDefault") {
       handle({ name: "payType", value: e.target.value });
-      // setPaytypeValue(e.target.value);
     }
     if (e.target.name === "flexRadioDefault2") {
       handle({ name: "payComp", value: e.target.value });
-      // setPayCompValue(e.target.value);
     }
   };
   const saleSubmit = () => {
@@ -318,7 +277,7 @@ const AddSale = (props) => {
       saleData.fishType !== "" &&
       saleData.amountReciv !== ""
     ) {
-      API.post("addSale", saleData).then((res) => {
+      saleURL.post("addSale", saleData).then((res) => {
         console.log(res);
         if (res.status === 200) {
           const alertMsg = {
@@ -351,11 +310,11 @@ const AddSale = (props) => {
       saleData.fishType !== "" &&
       saleData.amountReciv !== ""
     ) {
-      API.put("addSale", saleData).then((res) => {
+      saleURL.put("addSale", saleData).then((res) => {
         console.log(res);
         if (res.status === 200) {
           history.push({
-            pathname: `/Current-Sales/${saleData.tankID}/${saleData.mmyy}`,
+            pathname: `/Current-Sales/${ID}`,
           });
         } else {
           clearSaleData();

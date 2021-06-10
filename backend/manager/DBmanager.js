@@ -1,4 +1,26 @@
 const ActiveSale = require("../Modals/ActiveSalesModal");
+module.exports.getTanks = async () =>{
+  try{
+    let check = await ActiveSale.find({},{sales:0,totalKg:0,totalPrice:0})
+    if(check.length){
+      return check;
+    }else return null
+  }
+  catch(err){
+return null;
+  }
+}
+module.exports.findTank = async (obj) => {
+  try{
+    let check = await ActiveSale.find({tankNo: obj.tankNo,mmyy: obj.mmyy});
+   if(check.length){
+     return true
+   }else return false
+  }
+  catch(err){
+    return null
+  }
+}
 module.exports.getById = async (id) => {
   try {
     let check = await ActiveSale.findById(id);

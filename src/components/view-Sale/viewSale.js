@@ -15,7 +15,7 @@ export default function ViewReact(props) {
   if (Object.keys(props.data).length) {
     const onEditClick = () => {
       history.push({
-        pathname: `/Add-Sale/${props.data.tankNo}/${props.data.mmyy}`,
+        pathname: `/Add-Sale/${props.data.tankID}`,
         state: { data: props.data },
       });
     };

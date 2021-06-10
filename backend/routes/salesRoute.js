@@ -46,7 +46,6 @@ router.delete("/addSale/:id/:tankID", async (req, res) => {
   }
 });
 router.post("/currentSales", async (req, res) => {
-  console.log(req.body);
   if (Object.keys(req.body).length) {
     const response = await saleServie.getCurrentSales(req.body);
     console.log(response);

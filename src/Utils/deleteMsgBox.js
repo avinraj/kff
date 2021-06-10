@@ -1,5 +1,5 @@
 import "./deleteMsgBox.css";
-import API from "./salesbaseUrl";
+import {saleURL} from "./salesbaseUrl";
 import React, { useEffect, useRef, useState } from "react";
 import Alert from "./alerts";
 export default function DeleteMsgBox(props) {
@@ -29,7 +29,7 @@ export default function DeleteMsgBox(props) {
   }
   useOutsideAlerter(box);
   const onClickDelete = () => {
-    API.delete(`addSale/${props.data._id}/${props.data.tankID}`)
+    saleURL.delete(`addSale/${props.data._id}/${props.data.tankID}`)
       .then((res) => {
         if (res.status === 200) {
           props.onDeleteMsgBoxClose()
