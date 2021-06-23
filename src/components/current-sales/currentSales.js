@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./currentSale.css";
 import { useParams } from "react-router-dom";
-import {saleURL} from "../../Utils/salesbaseUrl";
+import {saleURL} from "../../Utils/baseUrl";
 import Alert from "../../Utils/alerts";
 import fishData from "../../Data/fishData";
 import ViewSale from "../view-Sale/viewSale";

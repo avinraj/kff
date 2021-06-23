@@ -4,7 +4,7 @@ import classes from "./tanksHome.module.css";
 import { useHistory } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import ConfirmBox from "../../Utils/confirmBox";
-import { tankURL } from "../../Utils/salesbaseUrl";
+import { tankURL } from "../../Utils/baseUrl";
 import Alert from "../../Utils/alerts";
 class TanksHome extends Component {
   constructor(props) {

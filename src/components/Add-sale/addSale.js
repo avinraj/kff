@@ -4,7 +4,7 @@ import "./addSale.css";
 import fishData from "../../Data/fishData";
 import "react-datepicker/dist/react-datepicker.css";
 import { useParams } from "react-router-dom";
-import {saleURL} from "../../Utils/salesbaseUrl";
+import {saleURL} from "../../Utils/baseUrl";
 import Alert from "../../Utils/alerts";
 import { useHistory } from "react-router-dom";
 const AddSale = (props) => {

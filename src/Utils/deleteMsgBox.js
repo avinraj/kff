@@ -1,5 +1,5 @@
 import "./deleteMsgBox.css";
-import {saleURL} from "./salesbaseUrl";
+import {saleURL} from "./baseUrl";
 import React, { useEffect, useRef, useState } from "react";
 import Alert from "./alerts";
 export default function DeleteMsgBox(props) {

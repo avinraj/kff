@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./login.css";
+import { loginURL } from "../../Utils/baseUrl";
+import Alert from "../../Utils/alerts";
 const Login = () => {
   const [LoginData, setLoginData] = useState({
     email: "",
@@ -9,6 +11,14 @@ const Login = () => {
     emailError: "",
     psswdError: "",
   });
+  const [alertData, setalertData] = useState({
+    data: "",
+    color: "",
+  });
+  const setAlert = async (msg, color) => {
+    await setalertData({ ...alertData, data: msg, color: color });
+    console.log(alertData)
+  };
   const validateForm = (errors) => {
     let valid = true;
     Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
@@ -59,6 +69,12 @@ const Login = () => {
       LoginData.password !== ""
     ) {
       console.log(LoginData, "VALID DATA");
+      loginURL.post("login",LoginData).then((res)=>{
+       setAlert("","")
+      })
+      .catch((err) => {
+        setAlert("You have entered an invalid username or password", "#e21935");
+      })
     } else {
       const e = document.getElementById("email");
       e.classList.add("error");
@@ -69,6 +85,12 @@ const Login = () => {
   return (
     <div className="mainContainer">
       <div className="container">
+      <Alert
+            data={alertData}
+            onAlertClose={() => {
+              setalertData({ ...alertData, data: "", color: "" });
+            }}
+          />
         <form autoComplete="off">
           <h3
             className="d-flex justify-content-center"
