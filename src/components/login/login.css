@@ -23,7 +23,6 @@
 .effect-1 {border: 0;text-align: center; width: 100%;background-color: inherit;}
 .effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #3399FF; transition: 0.4s;}
 .effect-1:focus ~ .focus-border{width: 100%; transition: 0.4s;}
-
 @media only screen and (min-width: 600px) and (max-width: 845px) {
 .mainContainer{
     width: 165vh
