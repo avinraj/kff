@@ -115,23 +115,26 @@ const Login = () => {
             <span className="focus-border"></span>
           </div>
           <div
-            className="d-flex justify-content-center"
+            className="d-flex justify-content-around"
             style={{ paddingTop: "15px" }}
           >
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheckDefault"
-              onClick={showPsswdClick}
-            />
-            <label
-              className="form-check-label"
-              htmlFor="flexCheckDefault"
-              style={{ fontStyle: "italic", fontSize: "smaller" }}
-            >
-              Show password
-            </label>
+            <div>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+                onClick={showPsswdClick}
+              />
+              <label
+                className="form-check-label"
+                htmlFor="flexCheckDefault"
+                style={{ fontStyle: "italic", fontSize: "smaller" }}
+              >
+                Show password
+              </label>
+            </div>
+            <p className="link-primary"  style={{ fontStyle: "italic"}}>Forgot password ?</p>
           </div>
           <div
             className="d-flex justify-content-center"
