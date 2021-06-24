@@ -70,10 +70,11 @@ const Login = () => {
     ) {
       console.log(LoginData, "VALID DATA");
       loginURL.post("login",LoginData).then((res)=>{
+        console.log(res)
        setAlert("","")
       })
       .catch((err) => {
-        setAlert("You have entered an invalid username or password", "#e21935");
+        setAlert("You have entered an invalid username or password", "rgb(247 86 61)");
       })
     } else {
       const e = document.getElementById("email");

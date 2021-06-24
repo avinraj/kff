@@ -38,7 +38,7 @@ export default function DeleteMsgBox(props) {
           setalertData({
             ...alertData,
             data: "Sales deleting failed. Try Again",
-            color: "#e21935",
+            color: "rgb(247 86 61)",
           });
         }
       })
@@ -46,7 +46,7 @@ export default function DeleteMsgBox(props) {
         setalertData({
           ...alertData,
           data: "Sales deleting failed. Try Again",
-          color: "#e21935",
+          color: "rgb(247 86 61)",
         });
       });
   };

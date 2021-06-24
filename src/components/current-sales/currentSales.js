@@ -36,11 +36,11 @@ const CurrentSale = () => {
             setData(res.data);
             setFilters({ ...filters, tankID: res.data._id });
           } else {
-            setAlert("Something went wrong.Please try again later ", "#e21935");
+            setAlert("Something went wrong.Please try again later ", "rgb(247 86 61)");
           }
         })
         .catch((err) =>
-          setAlert("Something went wrong.Please try again later ", "#e21935")
+          setAlert("Something went wrong.Please try again later ", "rgb(247 86 61)")
         );
     }
     fetchData();
@@ -63,7 +63,7 @@ const CurrentSale = () => {
           }
         })
         .catch((err) =>
-          setAlert("Something went wrong.Please try again later ", "#e21935")
+          setAlert("Something went wrong.Please try again later ", "rgb(247 86 61)")
         );
     };
     fetchFilterData();

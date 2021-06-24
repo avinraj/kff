@@ -290,7 +290,7 @@ const AddSale = (props) => {
           clearSaleData();
           const alertMsg = {
             mesg: "Sales adding failed. Try Again",
-            color: "#e21935",
+            color: "rgb(247 86 61)",
           };
           setAlert(alertMsg.mesg, alertMsg.color);
         }
@@ -299,7 +299,7 @@ const AddSale = (props) => {
       clearSaleData();
       const alertMsg = {
         mesg: "Sales adding failed. Try Again",
-        color: "#e21935",
+        color: "rgb(247 86 61)",
       };
       setAlert(alertMsg.mesg, alertMsg.color);
     }
@@ -320,7 +320,7 @@ const AddSale = (props) => {
           clearSaleData();
           const alertMsg = {
             mesg: "No Changes Applied.",
-            color: "#e21935",
+            color: "rgb(247 86 61)",
           };
           setAlert(alertMsg.mesg, alertMsg.color);
         }
@@ -329,7 +329,7 @@ const AddSale = (props) => {
       clearSaleData();
       const alertMsg = {
         mesg: "Sales adding failed. Try Again",
-        color: "#e21935",
+        color: "rgb(247 86 61)",
       };
       setAlert(alertMsg.mesg, alertMsg.color);
     }

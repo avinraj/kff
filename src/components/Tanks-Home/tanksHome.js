@@ -34,7 +34,7 @@ class TanksHome extends Component {
           this.setState({
             alertdata: {
               data: "Something went wrong.Please try again later",
-              color: "#e21935",
+              color: "rgb(247 86 61)",
             },
           });
         }
@@ -43,7 +43,7 @@ class TanksHome extends Component {
         this.setState({
           alertdata: {
             data: "Something went wrong.Please try again later",
-            color: "#e21935",
+            color: "rgb(247 86 61)",
           },
         });
       });
@@ -98,7 +98,7 @@ class TanksHome extends Component {
             this.setState({
               alertdata: {
                 data: "Culturing already exists.Please try again later",
-                color: "#e21935",
+                color: "rgb(247 86 61)",
               },
             });
           }
@@ -106,7 +106,7 @@ class TanksHome extends Component {
           this.setState({
             alertdata: {
               data: "Something went wrong.Please try again later",
-              color: "#e21935",
+              color: "rgb(247 86 61)",
             },
           });
         }
@@ -115,7 +115,7 @@ class TanksHome extends Component {
         this.setState({
           alertdata: {
             data: "Something went wrong.Please try again later",
-            color: "#e21935",
+            color: "rgb(247 86 61)",
           },
         });
       });
