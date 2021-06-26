@@ -1,4 +1,4 @@
-.alertDiv {
+.alertsDiv {
   position: absolute;
 }
 .cardContainer {
@@ -27,7 +27,7 @@
     right: 15%;
     top: 18%;
   }
-  .alertDiv {
+  .alertsDiv {
     margin-left: 7%;
     margin-right: 7%;
   }
@@ -58,7 +58,7 @@
     right: 33%;
     top: 9%;
   }
-  .alertDiv {
+  .alertsDiv {
     margin-left: 35%;
     margin-right: 33%;
   }

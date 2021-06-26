@@ -28,6 +28,7 @@ class TanksHome extends Component {
       .then((res) => {
         if (res.data.length) {
           this.setState({ dataArr: res.data });
+          console.log(this.state.dataArr)
         } else {
           this.setState({
             alertdata: {
@@ -602,7 +603,7 @@ class TanksHome extends Component {
           </div>
         ) : null}
         <TankModal tankID={this.state.tankName} mmyy={this.state.mmYY} id={this.state.id} />
-        <div className="alertDiv">
+        <div className="alertsDiv">
           <Alert
             data={this.state.alertdata}
             onAlertClose={() => {
