@@ -1,7 +1,7 @@
 import "./viewSale.css";
 import { useHistory } from "react-router-dom";
 import DeleteMsgBox from "../../Utils/deleteMsgBox";
-import { useState } from "react";
+import React, { useState } from "react";
 export default function ViewReact(props) {
   let history = useHistory();
   const [deleteMsg, setdeleteMsg] = useState({
@@ -11,7 +11,6 @@ export default function ViewReact(props) {
     tankNo: "",
     mmyy: ""
   });
-  console.log(props, "Selected sale");
   if (Object.keys(props.data).length) {
     const onEditClick = () => {
       history.push({

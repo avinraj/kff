@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 export default function ConfirmBox(props) {
   console.log(props.data);
   const [divView, setdivView] = useState(false);
@@ -8,7 +8,7 @@ export default function ConfirmBox(props) {
     }
   }, [props.data]);
   return (
-    <div >
+    <div>
       <div
         id="liveToast"
         style={{ display: divView ? "contents" : "none" }}

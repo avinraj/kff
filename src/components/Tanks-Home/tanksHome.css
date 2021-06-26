@@ -15,9 +15,9 @@
 .modal-backdrop.show {
   display: none;
 }
-.react-datepicker-popper {
+/* .react-datepicker-popper {
   position: relative !important;
-}
+} */
 .confirmBoxDiv {
   position: absolute;
 }

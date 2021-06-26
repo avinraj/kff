@@ -17,7 +17,6 @@ const AddSale = (props) => {
     editMode = true;
   }
   const { ID } = useParams();
-  console.log(props.location.state.data, "PROPS DATA");
   const validateForm = (errors) => {
     let valid = true;
     Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
@@ -148,7 +147,6 @@ const AddSale = (props) => {
     }
   };
   const handleChange = (e) => {
-    console.log(e.target);
     if (e.target.id === "newSaleFormInput1") {
       checkErrro("kgError", e.target.value);
       if (saleData.fishType || saleData.amountReciv) {
@@ -271,14 +269,12 @@ const AddSale = (props) => {
     }
   };
   const saleSubmit = () => {
-    console.log(saleData);
     if (
       validateForm(errors) &&
       saleData.fishType !== "" &&
       saleData.amountReciv !== ""
     ) {
       saleURL.post("addSale", saleData).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           const alertMsg = {
             mesg: "Sales added successfully",
@@ -311,7 +307,6 @@ const AddSale = (props) => {
       saleData.amountReciv !== ""
     ) {
       saleURL.put("addSale", saleData).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           history.push({
             pathname: `/Current-Sales/${ID}`,
@@ -334,7 +329,6 @@ const AddSale = (props) => {
       setAlert(alertMsg.mesg, alertMsg.color);
     }
   };
-  console.log(saleData, "SALEDATA");
   return (
     <div className="AddSaleContainer  shadow-lg">
       <form autoComplete="off">

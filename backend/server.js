@@ -2,11 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
+const passport = require('passport');
+require('./config/passport')(passport);
 const PORT = 3030;
 const tanksRoute = require("./routes/tanksRoute");
 const saleRoute = require("./routes/salesRoute");
 const authRoute = require("./routes/authRoute");
 const connectionOptions = {useUnifiedTopology: true,useNewUrlParser: true,useFindAndModify: false}
+app.use(passport.initialize());
 app.use(express.json())
 app.use(cors())
 mongoose

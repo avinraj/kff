@@ -8,7 +8,6 @@ module.exports.addSaleAPI = async (saleData) => {
   saleData.saleStatus = "active";
   const checkIdRes = await DBmanager.getById(id);
    if (checkIdRes) {
-    console.log(checkIdRes)
     obj = {
       name: saleData.name,
       fishType: saleData.fishType,
@@ -82,7 +81,6 @@ module.exports.getFilteredSales = async (data) => {
       if (newObj.payComp) {
         newObj.payComp = /true/i.test(newObj.payComp);
       }
-      console.log(newObj);
       return Object.keys(newObj).every((key) => f[key] === newObj[key]);
     });
     if (filteredSales.length) {

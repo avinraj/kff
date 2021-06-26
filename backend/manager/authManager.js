@@ -15,12 +15,10 @@ module.exports.checkLogin = async (data) => {
 };
 module.exports.hashPsswd = async (obj) => {
   try {
-      console.log(obj)
     let response = await LoginData.updateOne(
       { _id: obj.id },
       { $set: { password: obj.password } }
     );
-    console.log(response)
     if (response.nModified) {
       return true;
     } else {

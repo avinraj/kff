@@ -4,11 +4,9 @@ const jwt = require("jsonwebtoken");
 // const ObjectId = require("mongodb").ObjectID;
 module.exports.loginAPI = async (data) => {
   const response = await authManager.checkLogin(data);
-  console.log(response, "RESPONSE");
   if (Array.isArray(response)) {
     if (response.length === 1) {
       const res = await comparePsswdFunc(data.password, response);
-      console.log(res, "RES");
       return res;
     }
   } else {
@@ -18,7 +16,6 @@ module.exports.loginAPI = async (data) => {
 async function comparePsswdFunc(psswd, data) {
   try {
     const result = await bcrypt.compare(psswd, data[0].password);
-    console.log(result);
     if (result === false) {
       return null;
     }

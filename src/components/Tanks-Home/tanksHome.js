@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import cx from "classnames";
-import classes from "./tanksHome.module.css";
+import "./tanksHome.css";
 import { useHistory } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import ConfirmBox from "../../Utils/confirmBox";
@@ -29,7 +28,6 @@ class TanksHome extends Component {
       .then((res) => {
         if (res.data.length) {
           this.setState({ dataArr: res.data });
-          console.log(this.state.dataArr);
         } else {
           this.setState({
             alertdata: {
@@ -49,7 +47,6 @@ class TanksHome extends Component {
       });
   }
   componentDidUpdate() {
-    console.log(this.state, "STATE VALUE");
     if (this.state.collapse.includes(true)) {
       document.getElementById("main").style.overflowX = "hidden";
     } else {
@@ -141,11 +138,11 @@ class TanksHome extends Component {
   render() {
     return (
       <div
-        className={cx(classes.cardContainer, classes.gridContainer)}
+        className="cardContainer gridContainer"
         id="main"
       >
         <div
-          className={classes.card}
+          className="card"
           style={{
             width: "18rem",
             height: "10rem",
@@ -167,7 +164,7 @@ class TanksHome extends Component {
             {this.state.dataArr.find((item) => item.tankNo === "1") ? (
               <h6 className="card-subtitle mb-2 text-muted">Click for more</h6>
             ) : (
-              <>
+              <div>
                 <button
                   id="btnCollapse1"
                   className="btn btn-primary"
@@ -195,7 +192,7 @@ class TanksHome extends Component {
                   <div className="card card-body" style={{ padding: "0px" }}>
                     <DatePicker
                       closeOnScroll
-                      popperClassName={classes.popperDiv}
+                      popperClassName="popperDiv"
                       dateFormat="MMMM yyyy"
                       showMonthYearPicker
                       value={this.state.mmYY}
@@ -207,12 +204,12 @@ class TanksHome extends Component {
                     />
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
         <div
-          className={classes.card}
+          className="card"
           style={{ width: "18rem", height: "10rem" }}
           data-bs-toggle={
             this.state.dataArr.find((item) => item.tankNo === "2")
@@ -231,7 +228,7 @@ class TanksHome extends Component {
             {this.state.dataArr.find((item) => item.tankNo === "2") ? (
               <h6 className="card-subtitle mb-2 text-muted">Click for more</h6>
             ) : (
-              <>
+              <div>
                 <button
                   id="btnCollapse2"
                   className="btn btn-primary"
@@ -259,7 +256,7 @@ class TanksHome extends Component {
                   <div className="card card-body" style={{ padding: "0px" }}>
                     <DatePicker
                       closeOnScroll
-                      popperClassName={classes.popperDiv}
+                      popperClassName="popperDiv"
                       dateFormat="MMMM yyyy"
                       showMonthYearPicker
                       value={this.state.mmYY}
@@ -271,12 +268,12 @@ class TanksHome extends Component {
                     />
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
         <div
-          className={classes.card}
+          className="card"
           style={{ width: "18rem", height: "10rem" }}
           data-bs-toggle={
             this.state.dataArr.find((item) => item.tankNo === "3")
@@ -295,7 +292,7 @@ class TanksHome extends Component {
             {this.state.dataArr.find((item) => item.tankNo === "3") ? (
               <h6 className="card-subtitle mb-2 text-muted">Click for more</h6>
             ) : (
-              <>
+              <div>
                 <button
                   id="btnCollapse3"
                   className="btn btn-primary"
@@ -323,7 +320,7 @@ class TanksHome extends Component {
                   <div className="card card-body" style={{ padding: "0px" }}>
                     <DatePicker
                       closeOnScroll
-                      popperClassName={classes.popperDiv}
+                      popperClassName="popperDiv"
                       dateFormat="MMMM yyyy"
                       showMonthYearPicker
                       value={this.state.mmYY}
@@ -335,12 +332,12 @@ class TanksHome extends Component {
                     />
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
         <div
-          className={classes.card}
+          className="card"
           style={{ width: "18rem", height: "10rem" }}
           data-bs-toggle={
             this.state.dataArr.find((item) => item.tankNo === "4")
@@ -359,7 +356,7 @@ class TanksHome extends Component {
             {this.state.dataArr.find((item) => item.tankNo === "4") ? (
               <h6 className="card-subtitle mb-2 text-muted">Click for more</h6>
             ) : (
-              <>
+              <div>
                 <button
                   id="btnCollapse4"
                   className="btn btn-primary"
@@ -387,7 +384,7 @@ class TanksHome extends Component {
                   <div className="card card-body" style={{ padding: "0px" }}>
                     <DatePicker
                       closeOnScroll
-                      popperClassName={classes.popperDiv}
+                      popperClassName="popperDiv"
                       dateFormat="MMMM yyyy"
                       showMonthYearPicker
                       value={this.state.mmYY}
@@ -399,12 +396,12 @@ class TanksHome extends Component {
                     />
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
         <div
-          className={classes.card}
+          className="card"
           style={{ width: "18rem", height: "10rem" }}
           data-bs-toggle={
             this.state.dataArr.find((item) => item.tankNo === "5")
@@ -423,7 +420,7 @@ class TanksHome extends Component {
             {this.state.dataArr.find((item) => item.tankNo === "5") ? (
               <h6 className="card-subtitle mb-2 text-muted">Click for more</h6>
             ) : (
-              <>
+              <div>
                 <button
                   id="btnCollapse5"
                   className="btn btn-primary"
@@ -451,7 +448,7 @@ class TanksHome extends Component {
                   <div className="card card-body" style={{ padding: "0px" }}>
                     <DatePicker
                       closeOnScroll
-                      popperClassName={classes.popperDiv}
+                      popperClassName="popperDiv"
                       dateFormat="MMMM yyyy"
                       showMonthYearPicker
                       value={this.state.mmYY}
@@ -463,12 +460,12 @@ class TanksHome extends Component {
                     />
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
         <div
-          className={classes.card}
+          className="card"
           style={{ width: "18rem", height: "10rem" }}
           data-bs-toggle={
             this.state.dataArr.find((item) => item.tankNo === "6")
@@ -487,7 +484,7 @@ class TanksHome extends Component {
             {this.state.dataArr.find((item) => item.tankNo === "6") ? (
               <h6 className="card-subtitle mb-2 text-muted">Click for more</h6>
             ) : (
-              <>
+              <div>
                 <button
                   id="btnCollapse6"
                   className="btn btn-primary"
@@ -515,7 +512,7 @@ class TanksHome extends Component {
                   <div className="card card-body" style={{ padding: "0px" }}>
                     <DatePicker
                       closeOnScroll
-                      popperClassName={classes.popperDiv}
+                      popperClassName="popperDiv"
                       dateFormat="MMMM yyyy"
                       showMonthYearPicker
                       value={this.state.mmYY}
@@ -527,12 +524,12 @@ class TanksHome extends Component {
                     />
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
         <div
-          className={classes.card}
+          className="card"
           style={{ width: "18rem", height: "10rem" }}
           data-bs-toggle={
             this.state.dataArr.find((item) => item.tankNo === "7")
@@ -551,7 +548,7 @@ class TanksHome extends Component {
             {this.state.dataArr.find((item) => item.tankNo === "7") ? (
               <h6 className="card-subtitle mb-2 text-muted">Click for more</h6>
             ) : (
-              <>
+              <div>
                 <button
                   id="btnCollapse7"
                   className="btn btn-primary"
@@ -579,7 +576,7 @@ class TanksHome extends Component {
                   <div className="card card-body" style={{ padding: "0px" }}>
                     <DatePicker
                       closeOnScroll
-                      popperClassName={classes.popperDiv}
+                      popperClassName="popperDiv"
                       dateFormat="MMMM yyyy"
                       showMonthYearPicker
                       value={this.state.mmYY}
@@ -591,12 +588,12 @@ class TanksHome extends Component {
                     />
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
         {this.state.confirmMsg !== "" ? (
-          <div className={classes.confirmBoxDiv}>
+          <div className="confirmBoxDiv">
             <ConfirmBox
               data={this.state.confirmMsg}
               onClickYes={() => this.addNew()}
@@ -605,7 +602,7 @@ class TanksHome extends Component {
           </div>
         ) : null}
         <TankModal tankID={this.state.tankName} mmyy={this.state.mmYY} id={this.state.id} />
-        <div className={classes.alertDiv}>
+        <div className="alertDiv">
           <Alert
             data={this.state.alertdata}
             onAlertClose={() => {
@@ -631,10 +628,10 @@ const TankModal = (props) => {
     });
   };
   return (
-    <>
+    <div>
       <div className="modal fade" tabIndex="-1" id="tankModal">
         <div className="modal-dialog  modal-dialog-centered">
-          <div className="modal-content">
+          <div className="modal-content" style={{backgroundColor:"#dbe1e6"}}>
             <div className="modal-header text-center">
               <h5 className="modal-title" style={{ width: "100%" }}>
                 Tank {props.tankID}
@@ -676,7 +673,7 @@ const TankModal = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default TanksHome;

@@ -1,18 +1,23 @@
 const router = require("express").Router();
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+require("../config/passport")(passport);
+const conf = require("../config/auth-credentials");
 const authService = require("../services/authService");
 router.post("/login", async (req, res) => {
-  if (Object.keys(req.body).length) {
-    const response = await authService.loginAPI(req.body);
-    console.log(response)
-    if (Array.isArray(response)) {
-      if (response.length) {
-        res.status(200).send();
-      }
-    } else {
-      res.status(401).send();
+  passport.authenticate('basicLogin', { session: false }, (err, user) => {
+    if (err) {
+      console.log("Error: ", err);
     }
-  } else {
-    res.status(401).send();
-  }
+    if (!user) {
+      return res.status(401).send();
+    }
+    const token = jwt.sign({ id: user }, conf.secret.jwtSecret);
+    return res.status(200).json({ jwt: token, id: user }).send();
+  },
+  )(req,res);
+});
+router.get('/admin', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    return res.status(200).send();
 });
 module.exports = router;

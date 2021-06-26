@@ -2,10 +2,8 @@ const router = require("express").Router();
 const DBmanager = require("../manager/DBmanager");
 const saleServie = require("../services/saleService");
 router.post("/addSale", async (req, res) => {
-  console.log(req.body);
   if (Object.keys(req.body).length) {
     const response = await saleServie.addSaleAPI(req.body);
-    console.log(response);
     if (response === true) {
       res.json(201).send();
     } else {
@@ -16,10 +14,8 @@ router.post("/addSale", async (req, res) => {
   }
 });
 router.put("/addSale", async (req, res) => {
-  console.log(req.body, "Edited data");
   if (Object.keys(req.body).length) {
     const response = await saleServie.editedSaleAPI(req.body);
-    console.log(response, "RESPONSE RESULT");
     if (response === true) {
       res.json(201).send();
     } else {
@@ -48,7 +44,6 @@ router.delete("/addSale/:id/:tankID", async (req, res) => {
 router.post("/currentSales", async (req, res) => {
   if (Object.keys(req.body).length) {
     const response = await saleServie.getCurrentSales(req.body);
-    console.log(response);
     if (response) {
       res.status(200).json(response);
     } else {
@@ -60,7 +55,6 @@ router.post("/currentSales", async (req, res) => {
   // res.status(200).send()
 });
 router.post("/filter", async (req, res) => {
-  console.log(req.body);
   if (
     req.body.name ||
     req.body.fishType ||

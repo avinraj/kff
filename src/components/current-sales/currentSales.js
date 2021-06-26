@@ -31,7 +31,6 @@ const CurrentSale = () => {
     async function fetchData() {
       saleURL.post("currentSales", { ID })
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             setData(res.data);
             setFilters({ ...filters, tankID: res.data._id });
@@ -50,7 +49,6 @@ const CurrentSale = () => {
     const fetchFilterData = () => {
       saleURL.post("filter", filters)
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             if (res.data.status) {
               setSaleData({ ...saleData, sales: res.data.response });
@@ -70,7 +68,6 @@ const CurrentSale = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
   async function handleFilterChange(e) {
-    console.log(e.target.value);
     if (e.target.id === "name") {
       await setFilters({ ...filters, name: e.target.value });
     }
@@ -115,7 +112,6 @@ const CurrentSale = () => {
     };
    await setSelectedSale(obj);
   }
-  console.log(filters);
   if (saleData.sales) {
     return (
       <div className="mainCurrentSaleDiv">

@@ -17,7 +17,6 @@ const Login = () => {
   });
   const setAlert = async (msg, color) => {
     await setalertData({ ...alertData, data: msg, color: color });
-    console.log(alertData)
   };
   const validateForm = (errors) => {
     let valid = true;
@@ -68,14 +67,21 @@ const Login = () => {
       LoginData.email !== "" &&
       LoginData.password !== ""
     ) {
-      console.log(LoginData, "VALID DATA");
-      loginURL.post("login",LoginData).then((res)=>{
-        console.log(res)
-       setAlert("","")
-      })
-      .catch((err) => {
-        setAlert("You have entered an invalid username or password", "rgb(247 86 61)");
-      })
+      let logData = {
+        username: LoginData.email,
+        password: LoginData.password,
+      };
+      loginURL
+        .post("login", logData)
+        .then((res) => {
+          setAlert("", "");
+        })
+        .catch((err) => {
+          setAlert(
+            "You have entered an invalid username or password",
+            "rgb(247 86 61)"
+          );
+        });
     } else {
       const e = document.getElementById("email");
       e.classList.add("error");
@@ -86,12 +92,12 @@ const Login = () => {
   return (
     <div className="mainContainer">
       <div className="container">
-      <Alert
-            data={alertData}
-            onAlertClose={() => {
-              setalertData({ ...alertData, data: "", color: "" });
-            }}
-          />
+        <Alert
+          data={alertData}
+          onAlertClose={() => {
+            setalertData({ ...alertData, data: "", color: "" });
+          }}
+        />
         <form autoComplete="off">
           <h3
             className="d-flex justify-content-center"
@@ -157,7 +163,9 @@ const Login = () => {
                 Show password
               </label>
             </div>
-            <p className="link-primary"  style={{ fontStyle: "italic"}}>Forgot password ?</p>
+            <p className="link-primary" style={{ fontStyle: "italic" }}>
+              Forgot password ?
+            </p>
           </div>
           <div
             className="d-flex justify-content-center"
