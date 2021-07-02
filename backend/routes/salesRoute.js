@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const DBmanager = require("../manager/DBmanager");
 const saleServie = require("../services/saleService");
-router.post("/addSale", async (req, res) => {
+const passport = require("passport");
+require("../config/passport")(passport);
+router.post("/addSale",passport.authenticate('jwt', { session: false }), async (req, res) => {
   if (Object.keys(req.body).length) {
     const response = await saleServie.addSaleAPI(req.body);
     if (response === true) {
@@ -13,7 +15,7 @@ router.post("/addSale", async (req, res) => {
     res.status(204).send();
   }
 });
-router.put("/addSale", async (req, res) => {
+router.put("/addSale",passport.authenticate('jwt', { session: false }), async (req, res) => {
   if (Object.keys(req.body).length) {
     const response = await saleServie.editedSaleAPI(req.body);
     if (response === true) {
@@ -25,7 +27,7 @@ router.put("/addSale", async (req, res) => {
     res.status(204).send();
   }
 });
-router.delete("/addSale/:id/:tankID", async (req, res) => {
+router.delete("/addSale/:id/:tankID",passport.authenticate('jwt', { session: false }), async (req, res) => {
   if (req.params.id && req.params.tankID) {
     const obj = {
       id: req.params.id,
@@ -41,7 +43,7 @@ router.delete("/addSale/:id/:tankID", async (req, res) => {
     res.status(204).send();
   }
 });
-router.post("/currentSales", async (req, res) => {
+router.post("/currentSales",passport.authenticate('jwt', { session: false }), async (req, res) => {
   if (Object.keys(req.body).length) {
     const response = await saleServie.getCurrentSales(req.body);
     if (response) {
@@ -54,7 +56,7 @@ router.post("/currentSales", async (req, res) => {
   }
   // res.status(200).send()
 });
-router.post("/filter", async (req, res) => {
+router.post("/filter",passport.authenticate('jwt', { session: false }), async (req, res) => {
   if (
     req.body.name ||
     req.body.fishType ||

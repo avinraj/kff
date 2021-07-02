@@ -8,7 +8,7 @@ import Alert from "../../Utils/alerts";
 class TanksHome extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+this.state = {
       id: "",
       tankName: "",
       mmYY: "",
@@ -28,7 +28,7 @@ class TanksHome extends Component {
       .then((res) => {
         if (res.data.length) {
           this.setState({ dataArr: res.data });
-          console.log(this.state.dataArr)
+          console.log(this.state.dataArr);
         } else {
           this.setState({
             alertdata: {
@@ -58,6 +58,7 @@ class TanksHome extends Component {
     this.setState({
       collapse: [false, false, false, false, false, false, false],
       dataArr: [],
+      alertdata: {data: "", color:""}
     });
   }
   async onCardClick(tNumber) {
@@ -138,10 +139,7 @@ class TanksHome extends Component {
   }
   render() {
     return (
-      <div
-        className="cardContainer gridContainer"
-        id="main"
-      >
+      <div className="cardContainer gridContainer" id="main">
         <div
           className="card"
           style={{
@@ -602,7 +600,11 @@ class TanksHome extends Component {
             />
           </div>
         ) : null}
-        <TankModal tankID={this.state.tankName} mmyy={this.state.mmYY} id={this.state.id} />
+        <TankModal
+          tankID={this.state.tankName}
+          mmyy={this.state.mmYY}
+          id={this.state.id}
+        />
         <div className="alertsDiv">
           <Alert
             data={this.state.alertdata}
@@ -632,7 +634,7 @@ const TankModal = (props) => {
     <div>
       <div className="modal fade" tabIndex="-1" id="tankModal">
         <div className="modal-dialog  modal-dialog-centered">
-          <div className="modal-content" style={{backgroundColor:"#dbe1e6"}}>
+          <div className="modal-content" style={{ backgroundColor: "#dbe1e6" }}>
             <div className="modal-header text-center">
               <h5 className="modal-title" style={{ width: "100%" }}>
                 Tank {props.tankID}
@@ -644,8 +646,26 @@ const TankModal = (props) => {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body">
-              <p>{props.mmyy}</p>
+            <div className="modal-body d-flex justify-content-center">
+              <p style={{ marginRight: "18px", fontWeight: "bolder" }}>
+                {props.mmyy}
+              </p>
+              <button
+                className="btn btn-primary shadow"
+                style={{ height: "35px" }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-pencil-fill"
+                  viewBox="0 0 16 16"
+                  style={{ marginBottom: "5px" }}
+                >
+                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                </svg>
+              </button>
             </div>
             <div className="modal-footer d-flex justify-content-evenly">
               <button

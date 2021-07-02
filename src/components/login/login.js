@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import "./login.css";
+import {UserContext} from "../../App";
 import { loginURL } from "../../Utils/baseUrl";
 import Alert from "../../Utils/alerts";
+import { useHistory } from "react-router-dom";
 const Login = () => {
+  const {dispatch} = useContext(UserContext);
+  let history = useHistory();
   const [LoginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -15,6 +19,9 @@ const Login = () => {
     data: "",
     color: "",
   });
+  useEffect(() => {
+    return setLoginData({ email: "", password: "" });
+  }, []);
   const setAlert = async (msg, color) => {
     await setalertData({ ...alertData, data: msg, color: color });
   };
@@ -61,7 +68,7 @@ const Login = () => {
       e.type = "password";
     }
   };
-  const onClickSubmit = () => {
+  const onClickSubmit = async () => {
     if (
       validateForm(errors) &&
       LoginData.email !== "" &&
@@ -74,7 +81,11 @@ const Login = () => {
       loginURL
         .post("login", logData)
         .then((res) => {
+          window.localStorage.setItem("jwt", res.data.jwt);
+          window.localStorage.setItem("user", res.data.id);
+          dispatch({type:"USER",payload: res.data.jwt})
           setAlert("", "");
+          // window.location="/"
         })
         .catch((err) => {
           setAlert(
@@ -89,99 +100,105 @@ const Login = () => {
       p.classList.add("error");
     }
   };
-  return (
-    <div className="mainContainer">
-      <div className="container">
-        <Alert
-          data={alertData}
-          onAlertClose={() => {
-            setalertData({ ...alertData, data: "", color: "" });
-          }}
-        />
-        <form autoComplete="off">
-          <h3
-            className="d-flex justify-content-center"
-            style={{ paddingTop: "20px" }}
-          >
-            SIGN IN
-          </h3>
-          <div
-            className="d-flex justify-content-center"
-            style={{
-              position: "relative",
-              paddingTop: "25px",
-              marginLeft: "15%",
-              marginRight: "15%",
+  if(window.localStorage.length === 2){
+   history.push({pathname: `/`})
+   return null;
+  }
+  else{
+    return (
+      <div className="mainContainer">
+        <div className="container">
+          <Alert
+            data={alertData}
+            onAlertClose={() => {
+              setalertData({ ...alertData, data: "", color: "" });
             }}
-          >
-            <input
-              className="effect-1 "
-              type="text"
-              id="email"
-              placeholder="Enter your Email"
-              value={LoginData.email}
-              onChange={handleChange}
-            />
-            <span className="focus-border"></span>
-          </div>
-          <div
-            className="d-flex justify-content-center"
-            style={{
-              position: "relative",
-              paddingTop: "25px",
-              marginLeft: "15%",
-              marginRight: "15%",
-            }}
-          >
-            <input
-              className="effect-1 "
-              type="password"
-              id="password"
-              placeholder="Enter your Password"
-              value={LoginData.password}
-              onChange={handleChange}
-            />
-            <span className="focus-border"></span>
-          </div>
-          <div
-            className="d-flex justify-content-around"
-            style={{ paddingTop: "15px" }}
-          >
-            <div>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-                onClick={showPsswdClick}
-              />
-              <label
-                className="form-check-label"
-                htmlFor="flexCheckDefault"
-                style={{ fontStyle: "italic", fontSize: "smaller" }}
-              >
-                Show password
-              </label>
-            </div>
-            <p className="link-primary" style={{ fontStyle: "italic" }}>
-              Forgot password ?
-            </p>
-          </div>
-          <div
-            className="d-flex justify-content-center"
-            style={{ paddingTop: "25px", paddingBottom: "25px" }}
-          >
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={onClickSubmit}
+          />
+          <form autoComplete="off">
+            <h3
+              className="d-flex justify-content-center"
+              style={{ paddingTop: "20px" }}
             >
-              SUBMIT
-            </button>
-          </div>
-        </form>
+              SIGN IN
+            </h3>
+            <div
+              className="d-flex justify-content-center"
+              style={{
+                position: "relative",
+                paddingTop: "25px",
+                marginLeft: "15%",
+                marginRight: "15%",
+              }}
+            >
+              <input
+                className="effect-1 "
+                type="text"
+                id="email"
+                placeholder="Enter your Email"
+                value={LoginData.email}
+                onChange={handleChange}
+              />
+              <span className="focus-border"></span>
+            </div>
+            <div
+              className="d-flex justify-content-center"
+              style={{
+                position: "relative",
+                paddingTop: "25px",
+                marginLeft: "15%",
+                marginRight: "15%",
+              }}
+            >
+              <input
+                className="effect-1 "
+                type="password"
+                id="password"
+                placeholder="Enter your Password"
+                value={LoginData.password}
+                onChange={handleChange}
+              />
+              <span className="focus-border"></span>
+            </div>
+            <div
+              className="d-flex justify-content-around"
+              style={{ paddingTop: "15px" }}
+            >
+              <div>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                  onClick={showPsswdClick}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor="flexCheckDefault"
+                  style={{ fontStyle: "italic", fontSize: "smaller" }}
+                >
+                  Show password
+                </label>
+              </div>
+              <p className="link-primary" style={{ fontStyle: "italic" }}>
+                Forgot password ?
+              </p>
+            </div>
+            <div
+              className="d-flex justify-content-center"
+              style={{ paddingTop: "25px", paddingBottom: "25px" }}
+            >
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={onClickSubmit}
+              >
+                SUBMIT
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 export default Login;

@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const tankService = require("../services/tankService");
-router.get("/", async (req, res) => {
+const passport = require("passport");
+require("../config/passport")(passport);
+router.get("/", passport.authenticate('jwt', { session: false }),async (req, res) => {
   const response = await tankService.getTanks();
   if (response) {
     res.status(200).json(response);
@@ -8,7 +10,7 @@ router.get("/", async (req, res) => {
     res.status(204).send();
   }
 });
-router.post("/", async (req, res) => {
+router.post("/",passport.authenticate('jwt', { session: false }), async (req, res) => {
   if (req.body.tankNo && req.body.mmyy) {
     const response = await tankService.checkTank(req.body);
     if (response === false) {
