@@ -39,8 +39,8 @@ function App() {
   const [state,dispatch] = useReducer(reducer,initialState)
   return (
     <UserContext.Provider value={{state,dispatch}}>
-        <AuthInterceptors />
-    <Router>
+     <Router>
+    <AuthInterceptors />
       <div className="mainDiv">
         <Header />
       <Routing/>

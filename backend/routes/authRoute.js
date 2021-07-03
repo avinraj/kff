@@ -17,7 +17,4 @@ router.post("/login", async (req, res) => {
   },
   )(req,res);
 });
-router.get('/admin', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    return res.status(200).send();
-});
 module.exports = router;

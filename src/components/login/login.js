@@ -85,7 +85,6 @@ const Login = () => {
           window.localStorage.setItem("user", res.data.id);
           dispatch({type:"USER",payload: res.data.jwt})
           setAlert("", "");
-          // window.location="/"
         })
         .catch((err) => {
           setAlert(

@@ -1,5 +1,4 @@
 import axios from "axios";
-console.log(window.localStorage.getItem("jwt"),"TOKEN");
 const saleURL = axios.create({
   baseURL: `http://localhost:3030/sale/`,
 });
