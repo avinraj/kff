@@ -7,6 +7,7 @@ import fishData from "../../Data/fishData";
 import ViewSale from "../view-Sale/viewSale";
 const CurrentSale = () => {
   const { ID } = useParams();
+  let _isMounted = true;
   const [selectedSale, setSelectedSale] = useState({});
   const [filter, setFilter] = useState(false);
   const [alertData, setalertData] = useState({
@@ -22,18 +23,19 @@ const CurrentSale = () => {
     payType: "",
   });
   const setData = (data) => {
-    setSaleData(data);
+   _isMounted && setSaleData(data);
   };
   const setAlert = (msg, color) => {
-    setalertData({ ...alertData, data: msg, color: color });
+   _isMounted && setalertData({ ...alertData, data: msg, color: color });
   };
   useEffect(() => {
+   _isMounted = true;
     async function fetchData() {
       saleURL.post("currentSales", { ID })
         .then((res) => {
           if (res.status === 200) {
             setData(res.data);
-            setFilters({ ...filters, tankID: res.data._id });
+           _isMounted && setFilters({ ...filters, tankID: res.data._id });
           } else {
             setAlert("Something went wrong.Please try again later ", "rgb(247 86 61)");
           }
@@ -41,8 +43,16 @@ const CurrentSale = () => {
         .catch((err) =>
           setAlert("Something went wrong.Please try again later ", "rgb(247 86 61)")
         );
+        return () =>{
+          _isMounted = false;
+          setSelectedSale(null);
+          setFilter(null);
+          setalertData(null);
+          setSaleData(null);
+          setFilters(null);
+        }
     }
-    fetchData();
+    _isMounted && fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[selectedSale]);
   useEffect(() => {
@@ -51,13 +61,13 @@ const CurrentSale = () => {
         .then((res) => {
           if (res.status === 200) {
             if (res.data.status) {
-              setSaleData({ ...saleData, sales: res.data.response });
+             _isMounted && setSaleData({ ...saleData, sales: res.data.response });
             } else {
-              setSaleData({ ...saleData, sales: [] });
+             _isMounted && setSaleData({ ...saleData, sales: [] });
             }
           }
           if (res.status === 201) {
-            setSaleData(res.data);
+           _isMounted && setSaleData(res.data);
           }
         })
         .catch((err) =>
@@ -65,31 +75,34 @@ const CurrentSale = () => {
         );
     };
     fetchFilterData();
+    return () =>{
+      _isMounted = false;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
   async function handleFilterChange(e) {
     if (e.target.id === "name") {
-      await setFilters({ ...filters, name: e.target.value });
+      await _isMounted && setFilters({ ...filters, name: e.target.value });
     }
     if (e.target.id === "fishType") {
       if (e.target.value === "Choose...") {
-        await setFilters({ ...filters, fishType: "" });
+        await _isMounted && setFilters({ ...filters, fishType: "" });
       } else {
-        await setFilters({ ...filters, fishType: e.target.value });
+        await  _isMounted && setFilters({ ...filters, fishType: e.target.value });
       }
     }
     if (e.target.id === "payComp") {
       if (e.target.value === "Choose...") {
-        await setFilters({ ...filters, payComp: "" });
+        await _isMounted && setFilters({ ...filters, payComp: "" });
       } else {
-        await setFilters({ ...filters, payComp: e.target.value });
+        await _isMounted && setFilters({ ...filters, payComp: e.target.value });
       }
     }
     if (e.target.id === "payType") {
       if (e.target.value === "Choose...") {
-        await setFilters({ ...filters, payType: "" });
+        await _isMounted && setFilters({ ...filters, payType: "" });
       } else {
-        await setFilters({ ...filters, payType: e.target.value });
+        await _isMounted && setFilters({ ...filters, payType: e.target.value });
       }
     }
   }
@@ -110,7 +123,7 @@ const CurrentSale = () => {
       tankNo: saleData.tankNo,
       mmyy: saleData.mmyy,
     };
-   await setSelectedSale(obj);
+   await _isMounted && setSelectedSale(obj);
   }
   if (saleData.sales) {
     return (
@@ -154,8 +167,8 @@ const CurrentSale = () => {
                         className="bi bi-x-lg"
                         viewBox="0 0 16 16"
                         onClick={() => {
-                          setFilter(false);
-                          setFilters({
+                         _isMounted && setFilter(false);
+                         _isMounted && setFilters({
                             ...filters,
                             name: "",
                             fishType: "",
@@ -188,7 +201,7 @@ const CurrentSale = () => {
                         className="bi bi-funnel-fill"
                         viewBox="0 0 16 16"
                         onClick={() => {
-                          setFilter(true);
+                        _isMounted &&  setFilter(true);
                         }}
                       >
                         <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z" />
@@ -203,7 +216,7 @@ const CurrentSale = () => {
                       placeholder="Name"
                       id="name"
                       value={filters.name}
-                      onChange={handleFilterChange}
+                      onChange={_isMounted && handleFilterChange}
                       style={{
                         maxWidth: "110px",
                         borderRadius: "5px",
@@ -221,7 +234,7 @@ const CurrentSale = () => {
                   <div style={{ display: filter ? "contents" : "none" }}>
                     <select
                       id="fishType"
-                      onChange={handleFilterChange}
+                      onChange={_isMounted && handleFilterChange}
                       className="selectFilter"
                     >
                       <option>Choose...</option>
@@ -245,7 +258,7 @@ const CurrentSale = () => {
                   <div style={{ display: filter ? "contents" : "none" }}>
                     <select
                       id="payComp"
-                      onChange={handleFilterChange}
+                      onChange={_isMounted && handleFilterChange}
                       className="selectFilter"
                     >
                       <option>Choose...</option>
@@ -260,7 +273,7 @@ const CurrentSale = () => {
                   <div style={{ display: filter ? "contents" : "none" }}>
                     <select
                       id="payType"
-                      onChange={handleFilterChange}
+                      onChange={_isMounted && handleFilterChange}
                       className="selectFilter"
                     >
                       <option>Choose...</option>
@@ -293,7 +306,7 @@ const CurrentSale = () => {
                   <tr
                     key={index}
                     onClick={() => {
-                      onClickSelectedSale(saleData.sales[index]);
+                    _isMounted &&  onClickSelectedSale(saleData.sales[index]);
                     }}
                   >
                     <th
@@ -357,7 +370,7 @@ const CurrentSale = () => {
             </tbody>
           </table>
           <ViewSale data={selectedSale} onoffCanvasClose={() =>{
-            setSelectedSale({})
+           _isMounted && setSelectedSale({})
           }} />
         </div>
       </div>
@@ -368,7 +381,7 @@ const CurrentSale = () => {
         <Alert
           data={alertData}
           onAlertClose={() => {
-            setalertData({ ...alertData, data: "", color: "" });
+           _isMounted && setalertData({ ...alertData, data: "", color: "" });
           }}
         />
       </div>

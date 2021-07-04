@@ -4,7 +4,7 @@ const conf = {
     },
     signOptions: {
       algorithm: 'RS256',
-      expiresIn: 10, //in hours
+      expiresIn: '2h',
     },
   };
   module.exports = conf;

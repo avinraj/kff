@@ -1,12 +1,13 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./login.css";
-import {UserContext} from "../../App";
+import { UserContext } from "../../App";
 import { loginURL } from "../../Utils/baseUrl";
 import Alert from "../../Utils/alerts";
 import { useHistory } from "react-router-dom";
 const Login = () => {
-  const {dispatch} = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   let history = useHistory();
+  let _isMounted = true;
   const [LoginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -20,10 +21,15 @@ const Login = () => {
     color: "",
   });
   useEffect(() => {
-    return setLoginData({ email: "", password: "" });
+    _isMounted = true;
+    return () => {
+      _isMounted = false;
+      setLoginData(null);
+      setalertData(null);
+    };
   }, []);
   const setAlert = async (msg, color) => {
-    await setalertData({ ...alertData, data: msg, color: color });
+    await _isMounted && setalertData({ ...alertData, data: msg, color: color });
   };
   const validateForm = (errors) => {
     let valid = true;
@@ -52,12 +58,12 @@ const Login = () => {
   };
   const handleChange = (e) => {
     if (e.target.id === "email") {
-      checkErrro("email", e.target.value);
-      setLoginData({ ...LoginData, email: e.target.value });
+       checkErrro("email", e.target.value);
+      _isMounted && setLoginData({ ...LoginData, email: e.target.value });
     }
     if (e.target.id === "password") {
       checkErrro("password", e.target.value);
-      setLoginData({ ...LoginData, password: e.target.value });
+      _isMounted && setLoginData({ ...LoginData, password: e.target.value });
     }
   };
   const showPsswdClick = () => {
@@ -83,14 +89,15 @@ const Login = () => {
         .then((res) => {
           window.localStorage.setItem("jwt", res.data.jwt);
           window.localStorage.setItem("user", res.data.id);
-          dispatch({type:"USER",payload: res.data.jwt})
-          setAlert("", "");
+          dispatch({ type: "USER", payload: res.data.jwt });
+          _isMounted && setAlert("", "");
         })
         .catch((err) => {
-          setAlert(
-            "You have entered an invalid username or password",
-            "rgb(247 86 61)"
-          );
+          _isMounted &&
+            setAlert(
+              "You have entered an invalid username or password",
+              "rgb(247 86 61)"
+            );
         });
     } else {
       const e = document.getElementById("email");
@@ -99,18 +106,17 @@ const Login = () => {
       p.classList.add("error");
     }
   };
-  if(window.localStorage.length === 2){
-   history.push({pathname: `/`})
-   return null;
-  }
-  else{
+  if (window.localStorage.length === 2) {
+    history.push({ pathname: `/` });
+    return null;
+  } else {
     return (
       <div className="mainContainer">
         <div className="container">
           <Alert
             data={alertData}
             onAlertClose={() => {
-              setalertData({ ...alertData, data: "", color: "" });
+              _isMounted && setalertData({ ...alertData, data: "", color: "" });
             }}
           />
           <form autoComplete="off">
@@ -154,7 +160,7 @@ const Login = () => {
                 id="password"
                 placeholder="Enter your Password"
                 value={LoginData.password}
-                onChange={handleChange}
+                onChange={ handleChange}
               />
               <span className="focus-border"></span>
             </div>
@@ -189,7 +195,7 @@ const Login = () => {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={onClickSubmit}
+                onClick={_isMounted && onClickSubmit}
               >
                 SUBMIT
               </button>

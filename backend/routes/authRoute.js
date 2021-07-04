@@ -12,7 +12,7 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res.status(401).send();
     }
-    const token = jwt.sign({ id: user }, conf.secret.jwtSecret);
+    const token = jwt.sign({ id: user }, conf.secret.jwtSecret,{expiresIn: conf.signOptions.expiresIn});
     return res.status(200).json({ jwt: token, id: user }).send();
   },
   )(req,res);

@@ -11,7 +11,6 @@ export const AuthInterceptors = () => {
     history.push("/login");
     return;
   };
-  console.log(state);
   const a = "Bearer ";
   tankURL.defaults.headers.common["Authorization"] = a.concat(state);
   tankURL.interceptors.response.use(

@@ -8,6 +8,7 @@ import Alert from "../../Utils/alerts";
 class TanksHome extends Component {
   constructor(props) {
     super(props);
+    this._isMounted = false;
 this.state = {
       id: "",
       tankName: "",
@@ -23,14 +24,15 @@ this.state = {
     };
   }
   componentDidMount() {
+    this._isMounted = true;
     tankURL
       .get("")
       .then((res) => {
         if (res.data.length) {
-          this.setState({ dataArr: res.data });
+         this._isMounted && this.setState({ dataArr: res.data });
           console.log(this.state.dataArr);
         } else {
-          this.setState({
+        this._isMounted &&  this.setState({
             alertdata: {
               data: "Something went wrong.Please try again later",
               color: "rgb(247 86 61)",
@@ -39,7 +41,7 @@ this.state = {
         }
       })
       .catch((err) => {
-        this.setState({
+      this._isMounted && this.setState({
           alertdata: {
             data: "Something went wrong.Please try again later",
             color: "rgb(247 86 61)",
@@ -55,18 +57,19 @@ this.state = {
     }
   }
   componentWillUnmount() {
-    this.setState({
+   this._isMounted && this.setState({
       collapse: [false, false, false, false, false, false, false],
       dataArr: [],
       alertdata: {data: "", color:""}
     });
+    this._isMounted = false;
   }
   async onCardClick(tNumber) {
     var index = await this.state.dataArr.findIndex((o) =>
       o.tankNo === tNumber ? true : false
     );
     if (index >= 0) {
-      this.setState({
+     this._isMounted && this.setState({
         id: this.state.dataArr[index]._id,
         tankName: this.state.dataArr[index].tankNo,
         mmYY: this.state.dataArr[index].mmyy,
@@ -75,7 +78,7 @@ this.state = {
     }
   }
   async addNew() {
-    await this.setState({ confirmMsg: "" });
+    await this._isMounted && this.setState({ confirmMsg: "" });
     var body = {
       tankNo: this.state.tankName,
       mmyy: this.state.mmYY,
@@ -89,12 +92,12 @@ this.state = {
             var pos = parseInt(text, 10) - 1;
             var arr = this.state.collapse;
             arr[pos] = false;
-            this.setState({
+          this._isMounted &&  this.setState({
               dataArr: res.data.data,
               collapse: arr,
             });
           } else {
-            this.setState({
+           this._isMounted && this.setState({
               alertdata: {
                 data: "Culturing already exists.Please try again later",
                 color: "rgb(247 86 61)",
@@ -102,7 +105,7 @@ this.state = {
             });
           }
         } else {
-          this.setState({
+         this._isMounted && this.setState({
             alertdata: {
               data: "Something went wrong.Please try again later",
               color: "rgb(247 86 61)",
@@ -111,7 +114,7 @@ this.state = {
         }
       })
       .catch((err) => {
-        this.setState({
+       this._isMounted && this.setState({
           alertdata: {
             data: "Something went wrong.Please try again later",
             color: "rgb(247 86 61)",
@@ -125,7 +128,7 @@ this.state = {
     var month = splitString[1];
     var year = splitString[3];
     var concaStr = month.concat(" ", year);
-    await this.setState({
+    await this._isMounted && this.setState({
       id: "",
       tankName: tNumber,
       mmYY: concaStr,
@@ -133,7 +136,7 @@ this.state = {
     });
     const msg1 = "Click YES to start a new culturing in tank - ";
     const msg2 = " from ";
-    this.setState({
+  this._isMounted &&  this.setState({
       confirmMsg: msg1.concat(this.state.tankName, msg2, this.state.mmYY),
     });
   }
@@ -156,7 +159,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() => this.onCardClick("1")}
+          onClick={() =>this._isMounted && this.onCardClick("1")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-1</h5>
@@ -174,7 +177,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[0] = !this.state.collapse[0];
-                    await this.setState({ collapse: arr });
+                    await this._isMounted && this.setState({ collapse: arr });
                     if (this.state.collapse[0] === true) {
                       document.getElementById("btnCollapse1").innerText =
                         "Cancel";
@@ -198,7 +201,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                        this.dateFormatChange(newDate, "1")
+                       this._isMounted && this.dateFormatChange(newDate, "1")
                       }
                     />
                   </div>
@@ -220,7 +223,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() => this.onCardClick("2")}
+          onClick={() =>this._isMounted && this.onCardClick("2")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-2</h5>
@@ -238,7 +241,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[1] = !this.state.collapse[1];
-                    await this.setState({ collapse: arr });
+                    await this._isMounted && this.setState({ collapse: arr });
                     if (this.state.collapse[1] === true) {
                       document.getElementById("btnCollapse2").innerText =
                         "Cancel";
@@ -262,7 +265,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                        this.dateFormatChange(newDate, "2")
+                       this._isMounted && this.dateFormatChange(newDate, "2")
                       }
                     />
                   </div>
@@ -284,7 +287,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() => this.onCardClick("3")}
+          onClick={() =>this._isMounted && this.onCardClick("3")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-3</h5>
@@ -302,7 +305,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[2] = !this.state.collapse[2];
-                    await this.setState({ collapse: arr });
+                    await this._isMounted && this.setState({ collapse: arr });
                     if (this.state.collapse[2] === true) {
                       document.getElementById("btnCollapse3").innerText =
                         "Cancel";
@@ -326,7 +329,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                        this.dateFormatChange(newDate, "3")
+                       this._isMounted && this.dateFormatChange(newDate, "3")
                       }
                     />
                   </div>
@@ -348,7 +351,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() => this.onCardClick("4")}
+          onClick={() => this._isMounted && this.onCardClick("4")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-4</h5>
@@ -366,7 +369,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[3] = !this.state.collapse[3];
-                    await this.setState({ collapse: arr });
+                    await this._isMounted && this.setState({ collapse: arr });
                     if (this.state.collapse[3] === true) {
                       document.getElementById("btnCollapse4").innerText =
                         "Cancel";
@@ -390,7 +393,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                        this.dateFormatChange(newDate, "4")
+                       this._isMounted && this.dateFormatChange(newDate, "4")
                       }
                     />
                   </div>
@@ -412,7 +415,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() => this.onCardClick("5")}
+          onClick={() => this._isMounted && this.onCardClick("5")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-5</h5>
@@ -430,7 +433,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[4] = !this.state.collapse[4];
-                    await this.setState({ collapse: arr });
+                    await this._isMounted && this.setState({ collapse: arr });
                     if (this.state.collapse[4] === true) {
                       document.getElementById("btnCollapse5").innerText =
                         "Cancel";
@@ -454,7 +457,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                        this.dateFormatChange(newDate, "5")
+                       this._isMounted && this.dateFormatChange(newDate, "5")
                       }
                     />
                   </div>
@@ -476,7 +479,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() => this.onCardClick("6")}
+          onClick={() =>this._isMounted && this.onCardClick("6")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-6</h5>
@@ -494,7 +497,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[5] = !this.state.collapse[5];
-                    await this.setState({ collapse: arr });
+                    await this._isMounted && this.setState({ collapse: arr });
                     if (this.state.collapse[5] === true) {
                       document.getElementById("btnCollapse6").innerText =
                         "Cancel";
@@ -518,7 +521,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                        this.dateFormatChange(newDate, "6")
+                       this._isMounted && this.dateFormatChange(newDate, "6")
                       }
                     />
                   </div>
@@ -540,7 +543,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() => this.onCardClick("7")}
+          onClick={() =>this._isMounted && this.onCardClick("7")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-7</h5>
@@ -558,7 +561,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[6] = !this.state.collapse[6];
-                    await this.setState({ collapse: arr });
+                    await this._isMounted && this.setState({ collapse: arr });
                     if (this.state.collapse[6] === true) {
                       document.getElementById("btnCollapse7").innerText =
                         "Cancel";
@@ -582,7 +585,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                        this.dateFormatChange(newDate, "7")
+                       this._isMounted && this.dateFormatChange(newDate, "7")
                       }
                     />
                   </div>
@@ -595,7 +598,7 @@ this.state = {
           <div className="confirmBoxDiv">
             <ConfirmBox
               data={this.state.confirmMsg}
-              onClickYes={() => this.addNew()}
+              onClickYes={() =>this._isMounted && this.addNew()}
               onCloseBox={() => this.setState({ confirmMsg: "" })}
             />
           </div>
