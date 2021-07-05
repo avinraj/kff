@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import "./login.css";
-import { UserContext } from "../../App";
 import { loginURL } from "../../Utils/baseUrl";
 import Alert from "../../Utils/alerts";
 import { useHistory } from "react-router-dom";
 const Login = () => {
-  const { dispatch } = useContext(UserContext);
   let history = useHistory();
   let _isMounted = true;
   const [LoginData, setLoginData] = useState({
@@ -29,7 +27,8 @@ const Login = () => {
     };
   }, []);
   const setAlert = async (msg, color) => {
-    await _isMounted && setalertData({ ...alertData, data: msg, color: color });
+    (await _isMounted) &&
+      setalertData({ ...alertData, data: msg, color: color });
   };
   const validateForm = (errors) => {
     let valid = true;
@@ -58,7 +57,7 @@ const Login = () => {
   };
   const handleChange = (e) => {
     if (e.target.id === "email") {
-       checkErrro("email", e.target.value);
+      checkErrro("email", e.target.value);
       _isMounted && setLoginData({ ...LoginData, email: e.target.value });
     }
     if (e.target.id === "password") {
@@ -89,8 +88,6 @@ const Login = () => {
         .then((res) => {
           window.localStorage.setItem("jwt", res.data.jwt);
           window.localStorage.setItem("user", res.data.id);
-          dispatch({ type: "USER", payload: res.data.jwt });
-          _isMounted && setAlert("", "");
         })
         .catch((err) => {
           _isMounted &&
@@ -160,7 +157,7 @@ const Login = () => {
                 id="password"
                 placeholder="Enter your Password"
                 value={LoginData.password}
-                onChange={ handleChange}
+                onChange={handleChange}
               />
               <span className="focus-border"></span>
             </div>
@@ -195,7 +192,7 @@ const Login = () => {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={_isMounted && onClickSubmit}
+                onClick={ _isMounted && onClickSubmit}
               >
                 SUBMIT
               </button>

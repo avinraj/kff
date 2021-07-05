@@ -1,6 +1,6 @@
 import React from "react";
 export default function Alert(props) {
-  console.log(props.data);
+  // console.log(props.data);
   let divView = false;
   if (props.data.data !== "") {
     divView = true;
