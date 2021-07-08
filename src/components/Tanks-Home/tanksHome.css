@@ -21,6 +21,9 @@
 .confirmBoxDiv {
   position: absolute;
 }
+.confirmBoxDiv2 {
+  transform: translate(0px, 45px);
+}
 @media only screen and (max-width: 600px) {
   .confirmBoxDiv {
     left: 15%;
@@ -51,12 +54,20 @@
     top: 80px !important;
     left: 24px !important;
   }
+  .popperDiv2 {
+    top: 12px !important;
+    left: 24px !important;
+  }
 }
 @media only screen and (min-width: 600px) {
   .confirmBoxDiv {
     left: 33%;
     right: 33%;
     top: 9%;
+  }
+  .confirmBoxDiv2 {
+   max-width: 405px;
+   transform: translate(35px, 45px);
   }
   .alertsDiv {
     margin-left: 35%;
@@ -74,4 +85,5 @@
     background-color: whitesmoke;
     display: grid;
   }
+
 }

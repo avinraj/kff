@@ -82,7 +82,7 @@ const CurrentSale = () => {
   }, [filters]);
   async function handleFilterChange(e) {
     if (e.target.id === "name") {
-      await _isMounted && setFilters({ ...filters, name: e.target.value });
+      await setFilters({ ...filters, name: e.target.value });
     }
     if (e.target.id === "fishType") {
       if (e.target.value === "Choose...") {

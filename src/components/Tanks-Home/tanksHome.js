@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useRef, useState } from "react";
 import "./tanksHome.css";
 import { useHistory } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -9,7 +9,7 @@ class TanksHome extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
-this.state = {
+    this.state = {
       id: "",
       tankName: "",
       mmYY: "",
@@ -29,24 +29,26 @@ this.state = {
       .get("")
       .then((res) => {
         if (res.data.length) {
-         this._isMounted && this.setState({ dataArr: res.data });
+          this._isMounted && this.setState({ dataArr: res.data });
           console.log(this.state.dataArr);
         } else {
-        this._isMounted &&  this.setState({
+          this._isMounted &&
+            this.setState({
+              alertdata: {
+                data: "Something went wrong.Please try again later",
+                color: "rgb(247 86 61)",
+              },
+            });
+        }
+      })
+      .catch((err) => {
+        this._isMounted &&
+          this.setState({
             alertdata: {
               data: "Something went wrong.Please try again later",
               color: "rgb(247 86 61)",
             },
           });
-        }
-      })
-      .catch((err) => {
-      this._isMounted && this.setState({
-          alertdata: {
-            data: "Something went wrong.Please try again later",
-            color: "rgb(247 86 61)",
-          },
-        });
       });
   }
   componentDidUpdate() {
@@ -55,13 +57,16 @@ this.state = {
     } else {
       document.getElementById("main").style.overflowX = "auto";
     }
+    if (this.state.modalStatus === false) {
+    }
   }
   componentWillUnmount() {
-   this._isMounted && this.setState({
-      collapse: [false, false, false, false, false, false, false],
-      dataArr: [],
-      alertdata: {data: "", color:""}
-    });
+    this._isMounted &&
+      this.setState({
+        collapse: [false, false, false, false, false, false, false],
+        dataArr: [],
+        alertdata: { data: "", color: "" },
+      });
     this._isMounted = false;
   }
   async onCardClick(tNumber) {
@@ -69,16 +74,41 @@ this.state = {
       o.tankNo === tNumber ? true : false
     );
     if (index >= 0) {
-     this._isMounted && this.setState({
-        id: this.state.dataArr[index]._id,
-        tankName: this.state.dataArr[index].tankNo,
-        mmYY: this.state.dataArr[index].mmyy,
-        saleStatus: this.state.dataArr[index].saleStatus,
-      });
+      tankURL
+        .get("")
+        .then((res) => {
+          if (res.data.length) {
+          this._isMounted && this.setState({ dataArr: res.data });
+            this._isMounted &&
+              this.setState({
+                id: this.state.dataArr[index]._id,
+                tankName: this.state.dataArr[index].tankNo,
+                mmYY: this.state.dataArr[index].mmyy,
+                saleStatus: this.state.dataArr[index].saleStatus,
+              });
+          } else {
+            this._isMounted &&
+              this.setState({
+                alertdata: {
+                  data: "Something went wrong.Please try again later",
+                  color: "rgb(247 86 61)",
+                },
+              });
+          }
+        })
+        .catch((err) => {
+          this._isMounted &&
+            this.setState({
+              alertdata: {
+                data: "Something went wrong.Please try again later",
+                color: "rgb(247 86 61)",
+              },
+            });
+        });
     }
   }
   async addNew() {
-    await this._isMounted && this.setState({ confirmMsg: "" });
+    (await this._isMounted) && this.setState({ confirmMsg: "" });
     var body = {
       tankNo: this.state.tankName,
       mmyy: this.state.mmYY,
@@ -92,34 +122,38 @@ this.state = {
             var pos = parseInt(text, 10) - 1;
             var arr = this.state.collapse;
             arr[pos] = false;
-          this._isMounted &&  this.setState({
-              dataArr: res.data.data,
-              collapse: arr,
-            });
+            this._isMounted &&
+              this.setState({
+                dataArr: res.data.data,
+                collapse: arr,
+              });
           } else {
-           this._isMounted && this.setState({
+            this._isMounted &&
+              this.setState({
+                alertdata: {
+                  data: "Culturing already exists.Please try again later",
+                  color: "rgb(247 86 61)",
+                },
+              });
+          }
+        } else {
+          this._isMounted &&
+            this.setState({
               alertdata: {
-                data: "Culturing already exists.Please try again later",
+                data: "Something went wrong.Please try again later",
                 color: "rgb(247 86 61)",
               },
             });
-          }
-        } else {
-         this._isMounted && this.setState({
+        }
+      })
+      .catch((err) => {
+        this._isMounted &&
+          this.setState({
             alertdata: {
               data: "Something went wrong.Please try again later",
               color: "rgb(247 86 61)",
             },
           });
-        }
-      })
-      .catch((err) => {
-       this._isMounted && this.setState({
-          alertdata: {
-            data: "Something went wrong.Please try again later",
-            color: "rgb(247 86 61)",
-          },
-        });
       });
   }
   async dateFormatChange(newDate, tNumber) {
@@ -128,17 +162,19 @@ this.state = {
     var month = splitString[1];
     var year = splitString[3];
     var concaStr = month.concat(" ", year);
-    await this._isMounted && this.setState({
-      id: "",
-      tankName: tNumber,
-      mmYY: concaStr,
-      saleStatus: "",
-    });
+    (await this._isMounted) &&
+      this.setState({
+        id: "",
+        tankName: tNumber,
+        mmYY: concaStr,
+        saleStatus: "",
+      });
     const msg1 = "Click YES to start a new culturing in tank - ";
     const msg2 = " from ";
-  this._isMounted &&  this.setState({
-      confirmMsg: msg1.concat(this.state.tankName, msg2, this.state.mmYY),
-    });
+    this._isMounted &&
+      this.setState({
+        confirmMsg: msg1.concat(this.state.tankName, msg2, this.state.mmYY),
+      });
   }
   render() {
     return (
@@ -159,7 +195,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() =>this._isMounted && this.onCardClick("1")}
+          onClick={() => this._isMounted && this.onCardClick("1")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-1</h5>
@@ -177,7 +213,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[0] = !this.state.collapse[0];
-                    await this._isMounted && this.setState({ collapse: arr });
+                    (await this._isMounted) && this.setState({ collapse: arr });
                     if (this.state.collapse[0] === true) {
                       document.getElementById("btnCollapse1").innerText =
                         "Cancel";
@@ -201,7 +237,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                       this._isMounted && this.dateFormatChange(newDate, "1")
+                        this._isMounted && this.dateFormatChange(newDate, "1")
                       }
                     />
                   </div>
@@ -223,7 +259,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() =>this._isMounted && this.onCardClick("2")}
+          onClick={() => this._isMounted && this.onCardClick("2")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-2</h5>
@@ -241,7 +277,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[1] = !this.state.collapse[1];
-                    await this._isMounted && this.setState({ collapse: arr });
+                    (await this._isMounted) && this.setState({ collapse: arr });
                     if (this.state.collapse[1] === true) {
                       document.getElementById("btnCollapse2").innerText =
                         "Cancel";
@@ -265,7 +301,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                       this._isMounted && this.dateFormatChange(newDate, "2")
+                        this._isMounted && this.dateFormatChange(newDate, "2")
                       }
                     />
                   </div>
@@ -287,7 +323,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() =>this._isMounted && this.onCardClick("3")}
+          onClick={() => this._isMounted && this.onCardClick("3")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-3</h5>
@@ -305,7 +341,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[2] = !this.state.collapse[2];
-                    await this._isMounted && this.setState({ collapse: arr });
+                    (await this._isMounted) && this.setState({ collapse: arr });
                     if (this.state.collapse[2] === true) {
                       document.getElementById("btnCollapse3").innerText =
                         "Cancel";
@@ -329,7 +365,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                       this._isMounted && this.dateFormatChange(newDate, "3")
+                        this._isMounted && this.dateFormatChange(newDate, "3")
                       }
                     />
                   </div>
@@ -369,7 +405,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[3] = !this.state.collapse[3];
-                    await this._isMounted && this.setState({ collapse: arr });
+                    (await this._isMounted) && this.setState({ collapse: arr });
                     if (this.state.collapse[3] === true) {
                       document.getElementById("btnCollapse4").innerText =
                         "Cancel";
@@ -393,7 +429,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                       this._isMounted && this.dateFormatChange(newDate, "4")
+                        this._isMounted && this.dateFormatChange(newDate, "4")
                       }
                     />
                   </div>
@@ -433,7 +469,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[4] = !this.state.collapse[4];
-                    await this._isMounted && this.setState({ collapse: arr });
+                    (await this._isMounted) && this.setState({ collapse: arr });
                     if (this.state.collapse[4] === true) {
                       document.getElementById("btnCollapse5").innerText =
                         "Cancel";
@@ -457,7 +493,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                       this._isMounted && this.dateFormatChange(newDate, "5")
+                        this._isMounted && this.dateFormatChange(newDate, "5")
                       }
                     />
                   </div>
@@ -479,7 +515,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() =>this._isMounted && this.onCardClick("6")}
+          onClick={() => this._isMounted && this.onCardClick("6")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-6</h5>
@@ -497,7 +533,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[5] = !this.state.collapse[5];
-                    await this._isMounted && this.setState({ collapse: arr });
+                    (await this._isMounted) && this.setState({ collapse: arr });
                     if (this.state.collapse[5] === true) {
                       document.getElementById("btnCollapse6").innerText =
                         "Cancel";
@@ -521,7 +557,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                       this._isMounted && this.dateFormatChange(newDate, "6")
+                        this._isMounted && this.dateFormatChange(newDate, "6")
                       }
                     />
                   </div>
@@ -543,7 +579,7 @@ this.state = {
               ? "#tankModal"
               : null
           }
-          onClick={() =>this._isMounted && this.onCardClick("7")}
+          onClick={() => this._isMounted && this.onCardClick("7")}
         >
           <div className="card-body">
             <h5 className="card-title">Tank-7</h5>
@@ -561,7 +597,7 @@ this.state = {
                   onClick={async () => {
                     var arr = [...this.state.collapse];
                     arr[6] = !this.state.collapse[6];
-                    await this._isMounted && this.setState({ collapse: arr });
+                    (await this._isMounted) && this.setState({ collapse: arr });
                     if (this.state.collapse[6] === true) {
                       document.getElementById("btnCollapse7").innerText =
                         "Cancel";
@@ -585,7 +621,7 @@ this.state = {
                       popperPlacement="top-start"
                       placeholderText="clik to select a date"
                       onChange={(newDate) =>
-                       this._isMounted && this.dateFormatChange(newDate, "7")
+                        this._isMounted && this.dateFormatChange(newDate, "7")
                       }
                     />
                   </div>
@@ -598,7 +634,7 @@ this.state = {
           <div className="confirmBoxDiv">
             <ConfirmBox
               data={this.state.confirmMsg}
-              onClickYes={() =>this._isMounted && this.addNew()}
+              onClickYes={() => this._isMounted && this.addNew()}
               onCloseBox={() => this.setState({ confirmMsg: "" })}
             />
           </div>
@@ -620,8 +656,40 @@ this.state = {
     );
   }
 }
+
+//-----------------------MODAL------------------------------------------- //
 const TankModal = (props) => {
+  const box = useRef(null);
   let history = useHistory();
+  const [collapseStatus, setCollapseStatus] = useState(false);
+  const [tankData, setTankData] = useState({
+    tid: "",
+    tname: "",
+    tdate: "",
+  });
+  const [newDate, setNewDate] = useState("");
+  const [confirmMsg, setConfirmMsg] = useState("");
+  useEffect(() => {
+    setTankData({ tid: props.id, tname: props.tankID, tdate: props.mmyy });
+    return () => {
+      setTankData({ tname: "", tdate: "" });
+      setNewDate("");
+    };
+  }, [props]);
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      function handleOutsideClick(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setCollapseStatus(false);
+        }
+      }
+      document.addEventListener("click", handleOutsideClick);
+      return () => {
+        setCollapseStatus(false);
+      };
+    }, [ref]);
+  }
+  useOutsideAlerter(box);
   const redirect = () => {
     history.push({
       pathname: `/Add-Sale/${props.id}`,
@@ -633,14 +701,46 @@ const TankModal = (props) => {
       pathname: `/Current-Sales/${props.id}`,
     });
   };
+  const dateFormatChange = (newDate) => {
+    var str = newDate;
+    var splitString = str.toString().split(" ");
+    var month = splitString[1];
+    var year = splitString[3];
+    var concaStr = month.concat(" ", year);
+    setNewDate(concaStr);
+    const msg1 = "click YES to change the culturing date in tank - ";
+    const msg2 = " from ";
+    const msg3 = " to ";
+    setConfirmMsg(
+      msg1.concat(tankData.tname, msg2, tankData.tdate, msg3, concaStr)
+    );
+  };
+  const addNewDate = () => {
+    const obj = { id: tankData.tid, date: newDate };
+    tankURL
+      .post("/addNewDate", obj)
+      .then((res) => {
+        if (res.status === 200) {
+          setConfirmMsg("");
+          setTankData({ ...tankData, tdate: newDate });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div>
       <div className="modal fade" tabIndex="-1" id="tankModal">
         <div className="modal-dialog  modal-dialog-centered">
-          <div className="modal-content" style={{ backgroundColor: "#dbe1e6" }}>
+          <div
+            className="modal-content"
+            style={{ backgroundColor: "#dbe1e6" }}
+            ref={box}
+          >
             <div className="modal-header text-center">
               <h5 className="modal-title" style={{ width: "100%" }}>
-                Tank {props.tankID}
+                Tank {tankData.tname}
               </h5>
               <button
                 type="button"
@@ -649,26 +749,64 @@ const TankModal = (props) => {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body d-flex justify-content-center">
-              <p style={{ marginRight: "18px", fontWeight: "bolder" }}>
-                {props.mmyy}
-              </p>
-              <button
-                className="btn btn-primary shadow"
-                style={{ height: "35px" }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-pencil-fill"
-                  viewBox="0 0 16 16"
-                  style={{ marginBottom: "5px" }}
+            <div className="modal-body">
+              {confirmMsg !== "" ? (
+                <div className="confirmBoxDiv2">
+                  <ConfirmBox
+                    data={confirmMsg}
+                    onClickYes={addNewDate}
+                    onCloseBox={() => setConfirmMsg("")}
+                  />
+                </div>
+              ) : null}
+              <div className="d-flex flex-row justify-content-center">
+                <p style={{ marginRight: "18px", fontWeight: "bolder" }}>
+                  {tankData.tdate}
+                </p>
+                <button
+                  className="btn btn-primary shadow"
+                  style={{ height: "35px" }}
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseExample"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+                  onClick={() => {
+                    setCollapseStatus(true);
+                  }}
                 >
-                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-pencil-fill"
+                    viewBox="0 0 16 16"
+                    style={{ marginBottom: "5px" }}
+                  >
+                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                  </svg>
+                </button>
+              </div>
+              <div
+                className={collapseStatus ? "collapse show" : "collapse"}
+                id="collapseExample"
+              >
+                <div className="d-flex justify-content-center">
+                  <div style={{ padding: "0px", width: "fit-content" }}>
+                    <DatePicker
+                      ref={box}
+                      closeOnScroll
+                      popperClassName="popperDiv2"
+                      dateFormat="MMMM yyyy"
+                      showMonthYearPicker
+                      value={tankData.tdate}
+                      popperPlacement="top-start"
+                      placeholderText="click to select a date"
+                      onChange={(newDate) => dateFormatChange(newDate)}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="modal-footer d-flex justify-content-evenly">
               <button
@@ -692,7 +830,6 @@ const TankModal = (props) => {
               >
                 Add Sale
               </button>
-              {/* <a className="btn btn-primary shadow" href="/Add-Sale" role="button" >Add Sale</a> */}
             </div>
           </div>
         </div>

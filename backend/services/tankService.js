@@ -14,11 +14,22 @@ module.exports.addTank = async (obj) => {
     mmyy: obj.mmyy,
     saleStatus: "active",
     totalKg: 0,
-    totalPrice: 0
+    totalPrice: 0,
   };
   const response = await DBmanager.insert(newObj);
-  if(response === true){
-      const res = await DBmanager.getTanks();
-      if(res.length){return res}else {return null}
-  }else {return null}
+  if (response === true) {
+    const res = await DBmanager.getTanks();
+    if (res.length) {
+      return res;
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
+module.exports.addDate = async (obj) => {
+  const id = ObjectId(obj.id);
+  const response = await DBmanager.updateDate(id, obj.date);
+  return response;
 };

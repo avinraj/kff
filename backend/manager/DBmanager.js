@@ -1,26 +1,27 @@
 const ActiveSale = require("../Modals/ActiveSalesModal");
-module.exports.getTanks = async () =>{
-  try{
-    let check = await ActiveSale.find({},{sales:0,totalKg:0,totalPrice:0})
-    if(check.length){
+module.exports.getTanks = async () => {
+  try {
+    let check = await ActiveSale.find(
+      {},
+      { sales: 0, totalKg: 0, totalPrice: 0 }
+    );
+    if (check.length) {
       return check;
-    }else return null
+    } else return null;
+  } catch (err) {
+    return null;
   }
-  catch(err){
-return null;
-  }
-}
+};
 module.exports.findTank = async (obj) => {
-  try{
-    let check = await ActiveSale.find({tankNo: obj.tankNo,mmyy: obj.mmyy});
-   if(check.length){
-     return true
-   }else return false
+  try {
+    let check = await ActiveSale.find({ tankNo: obj.tankNo, mmyy: obj.mmyy });
+    if (check.length) {
+      return true;
+    } else return false;
+  } catch (err) {
+    return null;
   }
-  catch(err){
-    return null
-  }
-}
+};
 module.exports.getById = async (id) => {
   try {
     let check = await ActiveSale.findById(id);
@@ -41,6 +42,19 @@ module.exports.insert = async (data) => {
     } else {
       return false;
     }
+  } catch (err) {
+    return null;
+  }
+};
+module.exports.updateDate = async (id, date) => {
+  try {
+    const response = await ActiveSale.updateOne(
+      { _id: id },
+      { $set: { mmyy: date } }
+    );
+    if (response.nModified) {
+      return true;
+    } else return null;
   } catch (err) {
     return null;
   }
