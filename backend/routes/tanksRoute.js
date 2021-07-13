@@ -40,7 +40,6 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     if (req.body.id && req.body.date) {
-      console.log(req);
       const response = await tankService.addDate(req.body);
       if (response === true) {
         res.status(200).send();

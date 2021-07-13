@@ -21,7 +21,6 @@ const Routing = () => {
 const user = localStorage.getItem("jwt");
 if(user){
   dispatch({type: "USER",payload: user})
-  history.push({pathname:`/`})
 }else{
   history.push({pathname: `/login`})
 }

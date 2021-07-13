@@ -46,6 +46,20 @@ thead tr th {
     position: absolute;
     padding: 6px;
   }
+  .deleteCanvas {
+    top: 40%;
+    width: auto;
+    bottom: 40%;
+    border-radius: 15px;
+    right: -9px;
+  }
+  .confirmBoxDiv3{
+    position: absolute;
+    top:45%;
+    left: 6%;
+    right: 6%;
+    text-align: center;
+  }
 }
 @media only screen and (min-width: 800px) {
   .tableDiv {
@@ -54,7 +68,7 @@ thead tr th {
     margin-right: 10%;
     border-radius: 20px;
   }
-  .totalDiv{
+  .totalDiv {
     position: absolute;
     margin-top: -77px;
     width: 75%;
@@ -66,6 +80,25 @@ thead tr th {
     margin-left: 25%;
     position: absolute;
     padding: 6px;
+  }
+  .saleCloseDiv {
+    bottom: 81% !important;
+    right: 11% !important;
+  }
+  .deleteCanvas {
+    top: 38%;
+    width: auto;
+    bottom: 38%;
+    border-radius: 15px;
+    right: 30%;
+    left: 30%;
+    text-align: center;
+  }
+  .confirmBoxDiv3{
+    position: absolute;
+    top:45%;
+    left: 36%;
+    right: 36%;
   }
 }
 @media only screen and (min-width: 600px) and (max-width: 835px) {
