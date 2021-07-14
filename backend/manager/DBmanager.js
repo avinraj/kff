@@ -22,6 +22,18 @@ module.exports.findTank = async (obj) => {
     return null;
   }
 };
+module.exports.deleteTank = async (id) => {
+  try {
+    let check = await ActiveSale.deleteMany({ _id: id });
+    if (check.deletedCount) {
+      return true;
+    } else {
+      return null;
+    }
+  } catch (err) {
+    return null;
+  }
+};
 module.exports.getById = async (id) => {
   try {
     let check = await ActiveSale.findById(id);

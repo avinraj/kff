@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./currentSale.css";
-import { useParams } from "react-router-dom";
-import { saleURL } from "../../Utils/baseUrl";
+import { useParams,useHistory } from "react-router-dom";
+import { saleURL,tankURL } from "../../Utils/baseUrl";
 import Alert from "../../Utils/alerts";
 import ConfirmBox from "../../Utils/confirmBox";
 import fishData from "../../Data/fishData";
 import ViewSale from "../view-Sale/viewSale";
 const CurrentSale = () => {
   const { ID } = useParams();
+  let history = useHistory();
   let _isMounted = true;
   const [selectedSale, setSelectedSale] = useState({});
   const [filter, setFilter] = useState(false);
@@ -48,6 +49,7 @@ const CurrentSale = () => {
         .then((res) => {
           if (res.status === 200) {
             setData(res.data);
+            console.log(res.data);
             _isMounted && setFilters({ ...filters, tankID: res.data._id });
           } else {
             setAlert(
@@ -138,7 +140,23 @@ const CurrentSale = () => {
     const msg = "click Yes to close the sales in tank - ";
     setConfirmMsg(msg.concat(saleData.tankNo));
   }
-  async function removeSale() {}
+  async function removeSale() {
+tankURL.delete(`/${saleData._id}`)
+.then((res) =>{
+  console.log(res);
+  if(res.status === 200){
+history.push({pathname: `/`});
+  }else{
+    setConfirmMsg("");
+  }
+})
+.catch((err)=>{
+  setAlert(
+    "Something went wrong.Please try again later ",
+    "rgb(247 86 61)"
+  )
+})
+  }
   async function onClickSelectedSale(data) {
     let obj = {
       amountReciv: data.amount,
@@ -165,7 +183,7 @@ const CurrentSale = () => {
           <div className="confirmBoxDiv3">
             <ConfirmBox
               data={confirmMsg}
-              onClickYes={() => this._isMounted && removeSale}
+              onClickYes={() =>  removeSale()}
               onCloseBox={() => setConfirmMsg("")}
             />
           </div>

@@ -51,4 +51,22 @@ router.post(
     }
   }
 );
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    if (req.params.id) {
+      await tankService.deleteTank(req.params.id).then((response) => {
+        console.log(response,"TEST");
+        if (response === true) {
+          res.status(200).send();
+        } else {
+          res.status(204).send();
+        }
+      });
+    } else {
+      res.status(204).send();
+    }
+  }
+);
 module.exports = router;
