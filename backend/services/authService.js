@@ -1,6 +1,6 @@
 const authManager = require("../manager/authManager");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const sendmail = require('./mailService');
 // const ObjectId = require("mongodb").ObjectID;
 module.exports.loginAPI = async (data) => {
   const response = await authManager.checkLogin(data);
@@ -25,6 +25,24 @@ async function comparePsswdFunc(psswd, data) {
   } catch (err) {
     return null;
   }
+}
+module.exports.forgotPsswd = async (data) => {
+  try{
+const result = await authManager.checkLogin(data);
+if (Array.isArray(result)) {
+  if (result.length === 1) {
+    let message = {
+      to: result[0].email,
+      text: "Sample mail",
+    };
+    sendmail.sendEmail(message)
+   return result[0].email;
+  }
+} else {
+  return null;
+}
+  }
+  catch(err){return null}
 }
 // async function hashPsswdFunc(psswd, id){
 //  const hashedPsswd = await bcrypt.hash(psswd, 12)

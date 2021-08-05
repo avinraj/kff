@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./currentSale.css";
-import { useParams,useHistory } from "react-router-dom";
-import { saleURL,tankURL } from "../../Utils/baseUrl";
+import { useParams, useHistory } from "react-router-dom";
+import { saleURL, tankURL } from "../../Utils/baseUrl";
 import Alert from "../../Utils/alerts";
 import ConfirmBox from "../../Utils/confirmBox";
 import fishData from "../../Data/fishData";
@@ -26,7 +26,8 @@ const CurrentSale = () => {
     payType: "",
   });
   const setData = (data) => {
-    _isMounted && setSaleData(data);
+    console.log(data);
+ _isMounted && setSaleData(data);
   };
   const setAlert = (msg, color) => {
     _isMounted && setalertData({ ...alertData, data: msg, color: color });
@@ -47,10 +48,9 @@ const CurrentSale = () => {
       saleURL
         .post("currentSales", { ID })
         .then((res) => {
-          if (res.status === 200) {
-            setData(res.data);
-            console.log(res.data);
-            _isMounted && setFilters({ ...filters, tankID: res.data._id });
+          if (res.status === 200) {  
+           setData(res.data);
+           _isMounted && setFilters({ ...filters, tankID: res.data._id });
           } else {
             setAlert(
               "Something went wrong.Please try again later ",
@@ -141,21 +141,22 @@ const CurrentSale = () => {
     setConfirmMsg(msg.concat(saleData.tankNo));
   }
   async function removeSale() {
-tankURL.delete(`/${saleData._id}`)
-.then((res) =>{
-  console.log(res);
-  if(res.status === 200){
-history.push({pathname: `/`});
-  }else{
-    setConfirmMsg("");
-  }
-})
-.catch((err)=>{
-  setAlert(
-    "Something went wrong.Please try again later ",
-    "rgb(247 86 61)"
-  )
-})
+    tankURL
+      .delete(`/${saleData._id}`)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          history.push({ pathname: `/` });
+        } else {
+          setConfirmMsg("");
+        }
+      })
+      .catch((err) => {
+        setAlert(
+          "Something went wrong.Please try again later ",
+          "rgb(247 86 61)"
+        );
+      });
   }
   async function onClickSelectedSale(data) {
     let obj = {
@@ -183,7 +184,7 @@ history.push({pathname: `/`});
           <div className="confirmBoxDiv3">
             <ConfirmBox
               data={confirmMsg}
-              onClickYes={() =>  removeSale()}
+              onClickYes={() => removeSale()}
               onCloseBox={() => setConfirmMsg("")}
             />
           </div>
@@ -194,7 +195,7 @@ history.push({pathname: `/`});
             position: "fixed",
             right: "0%",
             bottom: "50%",
-            display: confirmMsg !=="" ? "none" : "block",
+            display: confirmMsg !== "" ? "none" : "block",
           }}
         >
           <button

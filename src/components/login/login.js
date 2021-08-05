@@ -73,6 +73,36 @@ const Login = () => {
       e.type = "password";
     }
   };
+  const onClickResetPsswd = async () =>{
+    if(LoginData.email !== ""){
+      let data = {
+        email: LoginData.email
+      };
+     loginURL.post("forgotPsswd", data)
+     .then((res) =>{
+       console.log(res.data.email);
+      if(res.status === 202){
+        _isMounted &&
+        setAlert(
+          "A link to reset your password is send to your email - "+ res.data.email,
+          "#0aab52"
+        );
+      }
+     })
+     .catch((err) =>{
+      _isMounted &&
+      setAlert(
+        "Email does not exist.Check the email you have entered",
+        "rgb(247 86 61)"
+      );
+     })
+    }else{
+      const e = document.getElementById("email");
+      e.classList.add("error");
+      const p = document.getElementById("password");
+      p.classList.remove("error");
+    }
+  }
   const onClickSubmit = async () => {
     if (
       validateForm(errors) &&
@@ -181,7 +211,7 @@ const Login = () => {
                   Show password
                 </label>
               </div>
-              <p className="link-primary" style={{ fontStyle: "italic" }}>
+              <p className="link-primary" onClick={_isMounted && onClickResetPsswd} style={{ fontStyle: "italic" }}>
                 Forgot password ?
               </p>
             </div>

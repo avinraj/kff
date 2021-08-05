@@ -17,4 +17,18 @@ router.post("/login", async (req, res) => {
   },
   )(req,res);
 });
+router.post("/forgotPsswd", async (req,res) =>{
+ if(req.body.email){
+ const response = await authService.forgotPsswd(req.body);
+ if(response){
+   return res.status(202).json({email: response});
+ }
+ else{
+  return res.status(406).send();
+}
+ }
+ else{
+   return res.status(406).send();
+ }
+})
 module.exports = router;

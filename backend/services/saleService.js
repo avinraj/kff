@@ -65,7 +65,7 @@ module.exports.deleteSaleAPI = async (data) => {
 module.exports.getCurrentSales = async (data) => {
   const idString = data.ID;
   const id = ObjectId(idString);
-  const response = await DBmanager.getById(id);
+  let response = await DBmanager.getById(id);
   return response;
 };
 module.exports.getFilteredSales = async (data) => {
